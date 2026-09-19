@@ -3,116 +3,367 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#17354d">
-<title>达拉曼 → 伊兹密尔｜爱琴海文明与神话画册</title>
+<meta name="theme-color" content="#0d3b4c">
+<title>土耳其爱琴文明路书｜Turkish Aegean Myth Roadbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Noto+Serif+SC:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{--bg:#f4ede2;--paper:#fffaf2;--ink:#172936;--muted:#69767e;--line:#d8cbb8;--gold:#b2873d;--sea:#1e5369;--terra:#a65f46;--soft:#efe2cc;--shadow:0 14px 36px rgba(31,45,54,.09)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0%,#d6b87924,transparent 28%),radial-gradient(circle at 94% 16%,#3874891c,transparent 32%),linear-gradient(#f8f2e8,#f2eadf);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",Arial,sans-serif;line-height:1.72}
-.wrap{max-width:1060px;margin:auto;padding:14px 14px 88px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif}h1{font-size:clamp(34px,8vw,60px);line-height:1.03;margin:8px 0 12px}h2{font-size:29px;margin:0 0 8px}h3{font-size:21px;margin:0 0 6px}p{margin:0 0 10px}.muted,.lead{color:var(--muted)}.section{margin:34px 0}
-.hero,.card,.chapter,.mini{background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}.hero-img,.art{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}.hero-copy,.pad{padding:18px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:900}.quote{border-left:3px solid var(--gold);padding-left:12px;font-family:Georgia,serif;color:#615a4f;margin:15px 0}
-.actions,.toolbar,.filters{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fffaf2;color:var(--ink);border-radius:999px;padding:9px 13px;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap;cursor:pointer}.btn.primary,.btn.active{background:var(--sea);color:#fff;border-color:var(--sea)}.toolbar{position:sticky;top:0;z-index:30;flex-wrap:nowrap;overflow:auto;padding:10px 0;margin:14px 0 22px;background:#f4ede2e8;backdrop-filter:blur(12px)}
-.grid{display:grid;grid-template-columns:1fr;gap:14px}.two{display:grid;grid-template-columns:1fr;gap:12px}.box{background:linear-gradient(#fffaf2,#fff5e7);border:1px solid var(--line);border-radius:16px;padding:13px}.box b{color:var(--terra)}.box ul{margin:6px 0 0;padding-left:18px}.box li{margin-bottom:6px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 13px}.tag{padding:5px 9px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:12px;font-weight:800}.chapter-copy{padding:17px}.chapter-no{font-size:11px;letter-spacing:.15em;color:var(--gold);font-weight:900;text-transform:uppercase}.aside{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}.aside summary{cursor:pointer;font-weight:800;color:var(--sea)}
-#map{height:430px;border-radius:20px}.status{margin-top:10px;padding:11px 13px;border:1px solid var(--line);border-radius:14px;background:#fff8eb;font-size:13px}.hidden{display:none!important}.thread{padding:16px}.thread-icon{font-size:27px}.timeline{display:flex;gap:10px;overflow:auto}.era{min-width:235px;padding:14px;background:var(--paper);border:1px solid var(--line);border-radius:17px}.era b{display:block;color:var(--gold);font-size:13px}.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--sea));z-index:99;width:0}
-.lang-en [data-zh]{display:none!important}.lang-zh [data-en]{display:none!important}
-@media(min-width:760px){.hero{display:grid;grid-template-columns:1.03fr .97fr}.two{grid-template-columns:1fr 1fr}.threads,.myths{grid-template-columns:1fr 1fr}.chapter-inner{display:grid;grid-template-columns:.9fr 1.1fr}.chapter:nth-child(even) .art{order:2}.chapter:nth-child(even) .chapter-copy{order:1}}
+:root{
+  --bg:#f3e6d0;
+  --paper:#fbf4e6;
+  --ink:#1a2c36;
+  --muted:#6b5e4e;
+  --line:#d4c2a0;
+  --gold:#c5a059;
+  --gold-deep:#9a7340;
+  --teal:#0d3b4c;
+  --teal-soft:#1a5366;
+  --sea:#1e5369;
+  --terra:#a65f46;
+  --soft:#efe0c6;
+  --frame:#0f4658;
+  --shadow:0 18px 40px rgba(26,44,54,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:"Noto Serif SC",Georgia,"Times New Roman",serif;
+  line-height:1.72;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(197,160,89,.18),transparent 42%),
+    repeating-linear-gradient(0deg,rgba(120,90,40,.03) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,#f7edd9 0%,#efe1c8 45%,#f3e6d0 100%);
+}
+body.lang-en{font-family:"Cormorant Garamond",Georgia,serif}
+.wrap{max-width:480px;margin:auto;padding:0 14px 110px}
+@media(min-width:760px){.wrap{max-width:720px}}
+h1,h2,h3{font-family:"Cormorant Garamond","Noto Serif SC",Georgia,serif;font-weight:700;letter-spacing:.02em}
+h1{font-size:clamp(28px,7.2vw,42px);line-height:1.15;margin:10px 0 8px;color:var(--teal)}
+h2{font-size:clamp(22px,5.5vw,30px);margin:0 0 10px;color:var(--teal);text-align:center}
+h3{font-size:19px;margin:0 0 6px;color:var(--teal)}
+p{margin:0 0 10px}
+.muted,.lead{color:var(--muted);text-align:center}
+.section{margin:28px 0}
+.ornament{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin:8px auto 18px;color:var(--gold-deep);font-size:14px;letter-spacing:.35em;
+}
+.ornament::before,.ornament::after{
+  content:"";height:1px;width:54px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
 
-/* Album / Art Nouveau polish */
-body{background:
-  radial-gradient(circle at 10% 0%,rgba(210,176,104,.22),transparent 30%),
-  radial-gradient(circle at 90% 12%,rgba(30,83,105,.14),transparent 34%),
-  linear-gradient(180deg,#f7f0e4 0%,#efe4d3 55%,#f4ede2 100%);
+/* top brand */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 2px 8px;position:sticky;top:0;z-index:40;
+  background:linear-gradient(#f3e6d0f2,#f3e6d0cc);backdrop-filter:blur(10px);
 }
-.hero,.card,.chapter,.mini,.era{
-  border:1.5px solid #c9a45a66;
-  box-shadow:0 14px 36px rgba(31,45,54,.09),inset 0 0 0 1px #fff6e8aa;
+.brand{
+  font-family:"Cormorant Garamond",serif;font-weight:700;letter-spacing:.28em;
+  font-size:13px;color:var(--teal);
 }
-.hero{position:relative}
-.hero-img{border-bottom:1px solid #c9a45a55}
-.eyebrow{letter-spacing:.22em}
-.btn.primary{background:linear-gradient(135deg,#1e5369,#17354d);border-color:#17354d}
-.chapter-no{color:#9a6f2a}
+.lang-pill{
+  display:inline-flex;border:1px solid var(--gold);border-radius:999px;overflow:hidden;background:var(--paper);
+}
+.lang-pill button{
+  border:0;background:transparent;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;
+  color:var(--muted);cursor:pointer;min-height:36px;
+}
+.lang-pill button.on{background:var(--teal);color:#f8f1e4}
+
+/* ornate frame */
+.frame{
+  position:relative;
+  background:var(--paper);
+  border:2px solid var(--frame);
+  border-radius:18px;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(197,160,89,.55);
+  padding:14px;
+}
+.frame::before{
+  content:"";position:absolute;inset:6px;border:1px solid rgba(197,160,89,.55);
+  border-radius:12px;pointer-events:none;
+}
+.frame-tight{padding:10px}
+.corner{
+  position:absolute;width:18px;height:18px;border:2px solid var(--gold);z-index:2;pointer-events:none;
+}
+.corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}
+.corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}
+.corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}
+.corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+
+.hero{margin-top:6px;overflow:hidden}
+.hero-img{
+  display:block;width:100%;aspect-ratio:4/5;object-fit:cover;
+  border-radius:12px;border:1px solid rgba(197,160,89,.45);
+}
+.hero-copy{padding:16px 8px 6px;text-align:center;position:relative;z-index:1}
+.route-line{
+  font-family:"Cormorant Garamond",serif;font-size:15px;color:var(--gold-deep);
+  letter-spacing:.04em;margin:0 0 8px;
+}
+.tagline{font-size:14px;color:var(--muted);margin:0 0 14px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.btn{
+  border:1px solid var(--gold);background:var(--paper);color:var(--teal);
+  border-radius:999px;padding:10px 14px;font-size:13px;font-weight:700;
+  text-decoration:none;white-space:nowrap;cursor:pointer;min-height:44px;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.btn.primary,.btn.active{background:var(--teal);color:#f8f1e4;border-color:var(--teal)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+
+#map{height:360px;border-radius:12px;border:1px solid rgba(197,160,89,.4)}
+.status{
+  margin-top:10px;padding:11px 13px;border:1px solid rgba(197,160,89,.45);
+  border-radius:12px;background:#fff8eb;font-size:13px;color:var(--muted);text-align:center;
+}
+.hidden{display:none!important}
+
+.stop-list{list-style:none;margin:14px 0 0;padding:0}
+.stop-list li{
+  display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;
+  padding:10px 4px;border-bottom:1px dashed rgba(197,160,89,.45);font-size:14px;
+}
+.stop-list li:last-child{border-bottom:0}
+.stop-num{
+  width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:#fff;background:var(--terra);
+}
+.stop-branch .stop-num{background:var(--gold-deep)}
+.stop-kind{
+  font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--gold-deep);
+  border:1px solid rgba(197,160,89,.55);border-radius:999px;padding:3px 8px;
+}
+
+.threads{display:grid;grid-template-columns:1fr;gap:12px}
+.thread{
+  background:linear-gradient(180deg,#fffaf0,#f7edd9);border:1px solid rgba(197,160,89,.5);
+  border-radius:14px;padding:14px;box-shadow:inset 0 0 0 1px rgba(13,59,76,.06);
+}
+.thread-icon{font-size:22px;color:var(--gold-deep)}
+.timeline{display:flex;gap:10px;overflow:auto;padding-bottom:4px}
+.era{
+  min-width:220px;padding:14px;background:var(--paper);
+  border:1px solid rgba(197,160,89,.5);border-radius:14px;
+}
+.era b{display:block;color:var(--gold-deep);font-size:13px;margin-bottom:4px}
+
+/* myths panel — dark teal block from mockup */
+.myths-panel{
+  background:
+    radial-gradient(circle at 20% 10%,rgba(197,160,89,.2),transparent 40%),
+    radial-gradient(circle at 80% 90%,rgba(197,160,89,.12),transparent 35%),
+    linear-gradient(160deg,#0d3b4c,#143f4f 55%,#0a303d);
+  border:2px solid var(--gold);
+  border-radius:18px;padding:18px 14px 16px;color:#f4ead8;
+  box-shadow:var(--shadow);
+}
+.myths-panel h2{color:#f4ead8}
+.myths-panel .ornament{color:var(--gold)}
+.myths-panel .ornament::before,.myths-panel .ornament::after{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.myths{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.myth-card{
+  background:rgba(255,248,235,.08);border:1px solid rgba(197,160,89,.45);
+  border-radius:14px;padding:12px 10px;text-align:center;
+}
+.myth-medallion{
+  width:64px;height:64px;margin:0 auto 8px;border-radius:50%;
+  border:2px solid var(--gold);
+  background:
+    radial-gradient(circle at 35% 30%,#f0d9a0,#c5a059 45%,#7d5a2a);
+  box-shadow:inset 0 0 0 3px rgba(13,59,76,.35);
+}
+.myth-card h3{color:#f8f1e4;font-size:14px}
+.myth-card p{color:#d9cbb3;font-size:12px;margin:0}
+
+.island-card .passby,.passby{
+  font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--teal-soft);margin-bottom:4px;
+}
+.mini.pad,.island-card{
+  background:var(--paper);border:1px solid rgba(197,160,89,.5);
+  border-radius:14px;padding:13px;
+}
+
+/* chapters as album cards */
+#chapterGrid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:560px){#chapterGrid{grid-template-columns:1fr 1fr}}
+.chapter{background:transparent;border:0;box-shadow:none}
+.chapter-frame{
+  background:var(--paper);border:2px solid var(--frame);border-radius:16px;overflow:hidden;
+  box-shadow:var(--shadow), inset 0 0 0 1px rgba(197,160,89,.45);
+}
+.art{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.chapter-copy{padding:14px 14px 16px}
+.chapter-no{font-size:11px;letter-spacing:.16em;color:var(--gold-deep);text-transform:uppercase;font-weight:800}
+.chapter-lead{font-size:14px;color:var(--muted)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px}
+.tag{
+  padding:4px 9px;border-radius:999px;background:var(--soft);
+  border:1px solid rgba(197,160,89,.45);font-size:11px;font-weight:800;color:var(--teal);
+}
+.read-cta{
+  list-style:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;
+  width:100%;min-height:44px;margin-top:4px;border-radius:999px;
+  background:var(--teal);color:#f8f1e4;font-weight:800;font-size:13px;letter-spacing:.04em;
+}
+.read-cta::-webkit-details-marker{display:none}
+.chapter-body{margin-top:8px}
+.chapter-body[open] .read-cta{background:var(--gold-deep)}
+.two{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+@media(min-width:560px){.two{grid-template-columns:1fr 1fr}}
+.box{
+  background:linear-gradient(#fffaf2,#f7edd9);border:1px solid rgba(197,160,89,.45);
+  border-radius:12px;padding:12px;
+}
+.box b{color:var(--terra)}
+.box ul{margin:6px 0 0;padding-left:18px}
+.box li{margin-bottom:5px;font-size:13px}
+.quote{
+  border-left:3px solid var(--gold);padding-left:12px;margin:14px 0;
+  font-style:italic;color:#5d5346;
+}
+.aside{margin-top:10px;padding-top:8px;border-top:1px dashed rgba(197,160,89,.5)}
+.aside summary{cursor:pointer;font-weight:800;color:var(--teal)}
+
+.cta-band{text-align:center;margin:28px 0 10px}
+.cta-band .btn{min-width:70%;background:var(--teal);color:#f8f1e4;border-color:var(--teal)}
+.footer-brand{
+  text-align:center;padding:18px 8px 8px;color:var(--muted);font-size:12px;letter-spacing:.08em;
+}
+.footer-brand strong{display:block;color:var(--teal);font-size:14px;letter-spacing:.18em;margin-bottom:4px}
+
 .bottom-nav{
-  position:fixed;left:0;right:0;bottom:0;z-index:40;
-  display:flex;justify-content:space-around;align-items:center;
-  gap:4px;padding:8px 10px calc(8px + env(safe-area-inset-bottom));
-  background:#fffaf2f2;border-top:1px solid #d8cbb8;backdrop-filter:blur(14px);
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  display:flex;justify-content:space-around;align-items:stretch;
+  gap:2px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  background:#fbf4e6f5;border-top:1px solid rgba(197,160,89,.55);
+  backdrop-filter:blur(14px);box-shadow:0 -8px 24px rgba(26,44,54,.08);
 }
 .bottom-nav a{
-  flex:1;text-align:center;text-decoration:none;color:#172936;
-  font-size:11px;font-weight:800;padding:8px 4px;border-radius:14px;min-height:44px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  flex:1;text-align:center;text-decoration:none;color:var(--teal);
+  font-size:10px;font-weight:800;letter-spacing:.04em;padding:8px 2px;border-radius:12px;
+  min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
 }
-.bottom-nav a span.icon{font-size:18px;line-height:1}
-.bottom-nav a:active,.bottom-nav a:focus{background:#efe2cc}
-.wrap{padding-bottom:104px}
-.passby{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#1e5369;margin-bottom:4px}
+.bottom-nav a span.icon{font-size:16px;line-height:1;color:var(--gold-deep)}
+.bottom-nav a:active,.bottom-nav a:focus{background:rgba(197,160,89,.18)}
 
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--teal));z-index:99;width:0}
+.lang-en [data-zh]{display:none!important}
+.lang-zh [data-en]{display:none!important}
+.toolbar{display:none} /* mockup uses bottom nav */
 </style>
 </head>
 <body class="lang-zh">
 <div class="progress" id="progress"></div>
 <div class="wrap">
-<header class="hero">
-<img class="hero-img" src="assets/art/cover.webp" alt="Aegean Myth Roadbook cover" fetchpriority="high" decoding="async">
-<div class="hero-copy">
-<div class="eyebrow">Aegean Civilizations Roadbook</div>
-<h1><span data-zh>达拉曼 → 伊兹密尔<br>爱琴海文明与神话画册</span><span data-en>Dalaman → İzmir<br>Aegean Civilizations & Myth Artbook</span></h1>
-<p class="muted"><span data-zh>真实地图 · 中英文 · 文明、地貌、神话、港口与海路</span><span data-en>Real map · bilingual · civilization, landscape, myth, ports and sea routes</span></p>
-<div class="quote"><span data-zh>不是去背多少神话人物，而是一路慢慢看见：文明如何沿着水、石头、山口与港湾重新长出自己的形状。</span><span data-en>Not about memorizing gods, but slowly seeing how civilization reshaped itself around water, stone, mountain passes and harbors.</span></div>
-<div class="actions"><button class="btn primary" id="langBtn">English</button><a class="btn" href="#mapSection"><span data-zh>地图</span><span data-en>Map</span></a><a class="btn" href="#chapters"><span data-zh>开始阅读</span><span data-en>Start reading</span></a></div>
-</div>
-</header>
+  <div class="topbar">
+    <div class="brand">AEGEAN</div>
+    <div class="lang-pill" role="group" aria-label="Language">
+      <button type="button" id="langZh" class="on">中文</button>
+      <button type="button" id="langEn">EN</button>
+    </div>
+  </div>
 
-<nav class="toolbar">
-<a class="btn" href="#mapSection"><span data-zh>路线地图</span><span data-en>Route</span></a>
-<a class="btn" href="#threads"><span data-zh>文明线索</span><span data-en>Threads</span></a>
-<a class="btn" href="#chapters"><span data-zh>分段画册</span><span data-en>Chapters</span></a>
-<a class="btn" href="#myths"><span data-zh>神话地图</span><span data-en>Myth map</span></a>
-<a class="btn" href="#sea"><span data-zh>海上背景</span><span data-en>Sea horizon</span></a>
+  <header class="frame hero" id="home">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+    <img class="hero-img" src="assets/art/cover.webp" alt="Aegean Myth Roadbook cover" fetchpriority="high" decoding="async">
+    <div class="hero-copy">
+      <h1><span data-zh>土耳其爱琴文明路书</span><span data-en>Turkish Aegean Myth Roadbook</span></h1>
+      <p class="route-line">Dalaman → Pamukkale → Ephesus → Izmir</p>
+      <p class="tagline"><span data-zh>在真实的土地上，遇见众神、文明与生活。</span><span data-en>Real Places. Timeless Stories.</span></p>
+      <div class="actions">
+        <a class="btn primary" href="#mapSection"><span data-zh>进入地图</span><span data-en>Open map</span></a>
+        <a class="btn" href="#chapters"><span data-zh>开始阅读</span><span data-en>Start reading</span></a>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="mapSection">
+    <h2><span data-zh>现实路线</span><span data-en>Real Route</span></h2>
+    <div class="ornament">✦</div>
+    <p class="lead"><span data-zh>路线示意（Cultural Route），非逐路导航。主线赤陶色，支线金色；实际导航请用 Google 地图。</span><span data-en>Cultural route schematic — not turn-by-turn. Terracotta = main, gold = branches; use Google Maps for navigation.</span></p>
+    <div class="frame frame-tight">
+      <span class="corner tl"></span><span class="corner tr"></span>
+      <span class="corner bl"></span><span class="corner br"></span>
+      <div class="filters">
+        <button class="btn active" data-filter="all"><span data-zh>全部</span><span data-en>All</span></button>
+        <button class="btn" data-filter="main"><span data-zh>主线</span><span data-en>Main</span></button>
+        <button class="btn" data-filter="detour"><span data-zh>支线</span><span data-en>Branch</span></button>
+        <button class="btn hidden" id="locateBtn"><span data-zh>附近站点</span><span data-en>Nearby</span></button>
+      </div>
+      <div id="map"></div>
+      <div class="status" id="status"><span data-zh>定位只在 HTTPS 且浏览器支持时出现；不可用会自动隐藏。</span><span data-en>Location appears only on HTTPS when supported; otherwise it hides automatically.</span></div>
+      <ol class="stop-list" id="stopList"></ol>
+    </div>
+  </section>
+
+  <section class="section" id="threads">
+    <h2><span data-zh>文明线索</span><span data-en>Cultural Threads</span></h2>
+    <div class="ornament">✦</div>
+    <div class="grid threads" id="threadGrid"></div>
+  </section>
+
+  <section class="section">
+    <h2><span data-zh>文明时间感</span><span data-en>Historical Timeline</span></h2>
+    <div class="ornament">✦</div>
+    <div class="timeline">
+      <div class="era"><b>Lycia / Caria</b><span data-zh>本土安纳托利亚传统，与爱琴海世界长期交汇。</span><span data-en>Local Anatolian traditions meeting the Aegean world.</span></div>
+      <div class="era"><b>Archaic & Classical</b><span data-zh>爱奥尼亚城市、港口、神谕与自然哲学成长。</span><span data-en>Ionian cities, harbors, oracles and natural philosophy grow.</span></div>
+      <div class="era"><b>Hellenistic</b><span data-zh>希腊语言和城市文化扩散，但地方性没有消失。</span><span data-en>Greek language and urban forms spread without erasing local identity.</span></div>
+      <div class="era"><b>Roman</b><span data-zh>剧场、浴场、道路和港口进入更大的帝国网络。</span><span data-en>Theaters, baths, roads and ports enter a larger imperial network.</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="myths">
+    <div class="myths-panel">
+      <h2><span data-zh>神话与典故</span><span data-en>Myths & Allusions</span></h2>
+      <div class="ornament">✦</div>
+      <p class="lead" style="color:#d9cbb3"><span data-zh>《奥德赛》仅作文学与文化回声，不作为本路书的地理框架。</span><span data-en>The Odyssey is a literary echo — not this roadbook’s geographic framework.</span></p>
+      <div class="grid myths" id="mythGrid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="sea">
+    <h2><span data-zh>海上背景</span><span data-en>Sea-Horizon Background</span></h2>
+    <div class="ornament">✦</div>
+    <p class="lead"><span data-zh>岛屿是路过的文明背景，不是行程目的地。</span><span data-en>Islands are pass-by context — scenery, not destinations.</span></p>
+    <div class="grid myths" id="islandGrid"></div>
+  </section>
+
+  <section class="section" id="chapters">
+    <h2><span data-zh>章节画册</span><span data-en>Illustrated Chapters</span></h2>
+    <div class="ornament">✦</div>
+    <p class="lead"><span data-zh>每一章先看土地，再看城市与神话。</span><span data-en>Each chapter starts from the land, then city and myth.</span></p>
+    <div class="grid" id="chapterGrid"></div>
+  </section>
+
+  <div class="cta-band">
+    <a class="btn" href="#chapters"><span data-zh>继续阅读</span><span data-en>Continue Reading</span></a>
+  </div>
+  <footer class="footer-brand">
+    <strong>AEGEAN MYTH ROADBOOK</strong>
+    <span data-zh>土耳其爱琴文明路书</span><span data-en>Turkish Aegean Myth Roadbook</span>
+  </footer>
+</div>
+
+<nav class="bottom-nav" aria-label="Primary">
+  <a href="#home"><span class="icon">⌂</span><span data-zh>首页</span><span data-en>Home</span></a>
+  <a href="#mapSection"><span class="icon">⌖</span><span data-zh>路线</span><span data-en>Route</span></a>
+  <a href="#chapters"><span class="icon">☰</span><span data-zh>章节</span><span data-en>Chapters</span></a>
+  <a href="#sea"><span class="icon">▦</span><span data-zh>画廊</span><span data-en>Gallery</span></a>
 </nav>
 
-<section class="section" id="mapSection">
-<h2><span data-zh>现实路线地图</span><span data-en>Real route map</span></h2>
-<p class="lead"><span data-zh>路线示意（Cultural Route），非逐路导航。主线：达拉曼机场 → 棉花堡 / 希拉波利斯 → 以弗所 → 伊兹密尔机场。金色为文化支线；实际导航请用 Google 地图。</span><span data-en>Cultural route schematic — not turn-by-turn. Main: Dalaman Airport → Pamukkale / Hierapolis → Ephesus → İzmir Airport. Gold = cultural branches; use Google Maps for real navigation.</span></p>
-<div class="filters"><button class="btn active" data-filter="all"><span data-zh>全部</span><span data-en>All</span></button><button class="btn" data-filter="main"><span data-zh>主线</span><span data-en>Main</span></button><button class="btn" data-filter="detour"><span data-zh>支线</span><span data-en>Detours</span></button><button class="btn hidden" id="locateBtn"><span data-zh>附近站点</span><span data-en>Nearby</span></button></div>
-<div class="card" style="margin-top:10px"><div id="map"></div></div>
-<div class="status" id="status"><span data-zh>定位只在 HTTPS 且浏览器支持时出现；不可用会自动隐藏。</span><span data-en>Location appears only on HTTPS when supported, otherwise it hides automatically.</span></div>
-</section>
-
-<section class="section" id="threads">
-<h2><span data-zh>带着 6 条文明线索上路</span><span data-en>Six cultural threads for the road</span></h2>
-<div class="grid threads" id="threadGrid"></div>
-</section>
-
-<section class="section">
-<h2><span data-zh>文明时间感</span><span data-en>A sense of historical time</span></h2>
-<div class="timeline">
-<div class="era"><b>Lycia / Caria</b><span data-zh>本土安纳托利亚传统，与爱琴海世界长期交汇。</span><span data-en>Local Anatolian traditions meeting the Aegean world.</span></div>
-<div class="era"><b>Archaic & Classical</b><span data-zh>爱奥尼亚城市、港口、神谕与自然哲学成长。</span><span data-en>Ionian cities, harbors, oracles and natural philosophy grow.</span></div>
-<div class="era"><b>Hellenistic</b><span data-zh>希腊语言和城市文化扩散，但地方性没有消失。</span><span data-en>Greek language and urban forms spread without erasing local identity.</span></div>
-<div class="era"><b>Roman</b><span data-zh>剧场、浴场、道路和港口进入更大的帝国网络。</span><span data-en>Theaters, baths, roads and ports enter a larger imperial network.</span></div>
-</div>
-</section>
-
-<section class="section" id="chapters">
-<h2><span data-zh>分段画册路书</span><span data-en>Illustrated roadbook chapters</span></h2>
-<p class="lead"><span data-zh>每一章都先看土地，再看城市和神话；《奥德赛》只作为可选文学旁注。</span><span data-en>Each chapter starts from the land, then the city and myth; the Odyssey remains an optional literary aside.</span></p>
-<div class="grid" id="chapterGrid"></div>
-</section>
-
-<section class="section" id="myths">
-<h2><span data-zh>神话地图：不只属于《奥德赛》</span><span data-en>Myth map: beyond the Odyssey</span></h2>
-<div class="grid myths" id="mythGrid"></div>
-</section>
-
-<section class="section" id="sea">
-<h2><span data-zh>海上背景：你不登岛，但海平线有历史</span><span data-en>Sea horizon: you may not land, but the horizon has history</span></h2>
-<div class="grid myths" id="islandGrid"></div>
-</section>
-</div>
-
 <script>
+
 const STOPS=[
 {id:"dalaman",zh:"达拉曼机场",en:"Dalaman Airport",lat:36.7131,lon:28.7925,k:"main"},
 {id:"kaunos",zh:"考诺斯 / 达利安",en:"Kaunos / Dalyan",lat:36.829,lon:28.642,k:"detour"},
@@ -165,17 +416,37 @@ document.body.className=lang==="zh"?"lang-zh":"lang-en";
 document.documentElement.lang=lang==="zh"?"zh-CN":"en";
 document.getElementById("langBtn").textContent=lang==="zh"?"English":"中文";
 document.getElementById("threadGrid").innerHTML=THREADS.map(x=>'<div class="mini thread"><div class="thread-icon">'+x[0]+'</div><h3>'+(lang==="zh"?x[1]:x[2])+'</h3><p>'+(lang==="zh"?x[3]:x[4])+'</p></div>').join("");
-document.getElementById("mythGrid").innerHTML=MYTHS.map(x=>'<div class="mini pad"><h3>'+x[0]+'</h3><p>'+(lang==="zh"?x[1]:x[2])+'</p></div>').join("");
+document.getElementById("mythGrid").innerHTML=MYTHS.map(x=>'<div class="myth-card"><div class="myth-medallion" aria-hidden="true"></div><h3>'+x[0]+'</h3><p>'+(lang==="zh"?x[1]:x[2])+'</p></div>').join("");
 document.getElementById("islandGrid").innerHTML=ISLANDS.map(x=>'<div class="mini pad"><div class="passby">'+(lang==="zh"?"路过 · Pass-by Context":"Pass-by Context")+'</div><h3>'+x[0]+'</h3><p>'+(lang==="zh"?x[1]:x[2])+'</p></div>').join("");
-document.getElementById("chapterGrid").innerHTML=CHAPTERS.map(c=>'<article class="chapter"><div class="chapter-inner"><img class="art" loading="lazy" src="'+c.img+'" alt=""><div class="chapter-copy"><div class="chapter-no">Chapter '+c.n+'</div><h3>'+(lang==="zh"?c.zh:c.en)+'</h3><div class="tags">'+c.tags.map(t=>'<span class="tag">'+t+'</span>').join("")+'</div><p>'+(lang==="zh"?c.i:c.ie)+'</p><div class="two"><div class="box"><b>'+(lang==="zh"?"沿途看什么":"What to notice")+'</b><ul>'+c.see.map(x=>'<li>'+x+'</li>').join("")+'</ul></div><div class="box"><b>'+(lang==="zh"?"为什么重要":"Why it matters")+'</b><ul>'+c.why.map(x=>'<li>'+x+'</li>').join("")+'</ul></div></div><div class="box" style="margin-top:12px"><b>'+(lang==="zh"?"地方神话与信仰":"Local myth & belief")+'</b><ul>'+c.myth.map(x=>'<li>'+x+'</li>').join("")+'</ul></div><div class="quote">'+c.obs+'</div><details class="aside"><summary>'+(lang==="zh"?"文学 / 电影旁注（可选）":"Literary / film aside (optional)")+'</summary><p>'+c.aside+'</p></details></div></div></article>').join("");
+document.getElementById("chapterGrid").innerHTML=CHAPTERS.map(c=>'<article class="chapter" id="ch-'+c.n+'"><div class="chapter-frame"><img class="art" loading="lazy" src="'+c.img+'" alt="'+(lang==="zh"?c.zh:c.en)+'"><div class="chapter-copy"><div class="chapter-no">Chapter '+c.n+'</div><h3>'+(lang==="zh"?c.zh:c.en)+'</h3><div class="tags">'+c.tags.map(t=>'<span class="tag">'+t+'</span>').join("")+'</div><p class="chapter-lead">'+(lang==="zh"?c.i:c.ie)+'</p><details class="chapter-body"><summary class="read-cta"><span data-zh>阅读章节</span><span data-en>Read Chapter</span> →</summary><div class="two"><div class="box"><b>'+(lang==="zh"?"沿途看什么":"What to notice")+'</b><ul>'+c.see.map(x=>'<li>'+x+'</li>').join("")+'</ul></div><div class="box"><b>'+(lang==="zh"?"为什么重要":"Why it matters")+'</b><ul>'+c.why.map(x=>'<li>'+x+'</li>').join("")+'</ul></div></div><div class="box" style="margin-top:12px"><b>'+(lang==="zh"?"地方神话与信仰":"Local myth & belief")+'</b><ul>'+c.myth.map(x=>'<li>'+x+'</li>').join("")+'</ul></div><div class="quote">'+c.obs+'</div><details class="aside"><summary>'+(lang==="zh"?"文学 / 电影旁注（可选）":"Literary / film aside (optional)")+'</summary><p>'+c.aside+'</p></details></div></details></div></div></article>').join("");
+
+document.getElementById("stopList").innerHTML=STOPS.map((s,i)=>{
+  const kind=s.k==="main"?(i===0?(lang==="zh"?"起点":"Start"):(i===STOPS.length-1?(lang==="zh"?"终点":"End"):(lang==="zh"?"主线":"Main"))):(lang==="zh"?"支线":"Branch");
+  const klass=s.k==="main"?"stop-main":"stop-branch";
+  return '<li class="'+klass+'"><span class="stop-num">'+(i+1)+'</span><span class="stop-name">'+(lang==="zh"?s.zh:s.en)+'</span><span class="stop-kind">'+kind+'</span></li>';
+}).join("");
+
 if(window.redrawMap)window.redrawMap();
 }
 document.getElementById("langBtn").onclick=()=>{lang=lang==="zh"?"en":"zh";render()};render();
 window.addEventListener("scroll",()=>{const h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight);document.getElementById("progress").style.width=(p*100)+"%"});
 function hav(a,b,c,d){const R=6371,q=x=>x*Math.PI/180,da=q(c-a),db=q(d-b),z=Math.sin(da/2)**2+Math.cos(q(a))*Math.cos(q(c))*Math.sin(db/2)**2;return 2*R*Math.asin(Math.sqrt(z))}
+
+// bilingual pill buttons
+const syncLangUI=()=>{
+  document.getElementById('langZh').classList.toggle('on', lang==='zh');
+  document.getElementById('langEn').classList.toggle('on', lang==='en');
+};
+document.getElementById('langZh').onclick=()=>{lang='zh';render();syncLangUI()};
+document.getElementById('langEn').onclick=()=>{lang='en';render();syncLangUI()};
+// neutralize old langBtn if referenced
+const _lb=document.getElementById('langBtn');
+if(_lb) _lb.onclick=()=>{lang=lang==='zh'?'en':'zh';render();syncLangUI()};
+syncLangUI();
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+
 (()=>{if(!window.L)return;const map=L.map("map",{scrollWheelZoom:false}).setView([37.55,28.15],7),layers={m:L.layerGroup().addTo(map),d:L.layerGroup().addTo(map),l:L.layerGroup().addTo(map),u:L.layerGroup().addTo(map)};L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);let filter="all";
 const icon=(c,s)=>L.divIcon({className:"",html:'<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:'+c+';border:3px solid #fff;box-shadow:0 1px 7px #0005"></div>',iconSize:[s,s],iconAnchor:[s/2,s/2]});
 function draw(){layers.m.clearLayers();layers.d.clearLayers();layers.l.clearLayers();const main=STOPS.filter(x=>x.k==="main");if(filter!=="detour")L.polyline(main.map(x=>[x.lat,x.lon]),{color:"#a65f46",weight:4}).addTo(layers.l);STOPS.forEach(s=>{if(filter!=="all"&&s.k!==filter)return;const m=L.marker([s.lat,s.lon],{icon:icon(s.k==="main"?"#a65f46":"#c49b3c",s.k==="main"?16:14)}).addTo(s.k==="main"?layers.m:layers.d);m.bindPopup("<b>"+(lang==="zh"?s.zh:s.en)+'</b><br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lon+'">'+(lang==="zh"?"在 Google 地图中打开":"Open in Google Maps")+"</a>")})}
@@ -184,6 +455,7 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{document.qu
 const locate=document.getElementById("locateBtn"),status=document.getElementById("status"),ok=window.isSecureContext&&("geolocation"in navigator);if(ok)locate.classList.remove("hidden");
 locate.onclick=()=>navigator.geolocation.getCurrentPosition(p=>{layers.u.clearLayers();const a=p.coords.latitude,b=p.coords.longitude;L.marker([a,b],{icon:icon("#2f81c1",16)}).addTo(layers.u).bindPopup(lang==="zh"?"你的位置":"Your location").openPopup();const n=STOPS.map(s=>[s,hav(a,b,s.lat,s.lon)]).sort((x,y)=>x[1]-y[1])[0];status.innerHTML=lang==="zh"?"你现在最近的是 <b>"+n[0].zh+"</b>，直线距离约 <b>"+n[1].toFixed(1)+" km</b>。":"Your nearest stop is <b>"+n[0].en+"</b>, about <b>"+n[1].toFixed(1)+" km</b> away.";map.setView([a,b],8)},()=>{locate.classList.add("hidden");status.textContent=lang==="zh"?"定位不可用，已隐藏附近站点功能。":"Location unavailable; Nearby has been hidden."},{enableHighAccuracy:true,timeout:10000});
 })();
+
 </script>
 </body>
 </html>
