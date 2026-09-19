@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17354d">
+<title>达拉曼 → 伊兹密尔｜爱琴海神话路书</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#f7f1e6;--paper:#fffaf1;--ink:#172936;--muted:#65727b;--line:#d9cdb9;--gold:#b58a3b;--sea:#1e5369;--terra:#a45d42;--soft:#efe3ce}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",Arial,sans-serif;line-height:1.7}.wrap{max-width:980px;margin:auto;padding:14px 14px 80px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif}h1{font-size:clamp(31px,8vw,52px);line-height:1.06;margin:8px 0}h2{font-size:26px;margin:0 0 8px}h3{font-size:20px;margin:0 0 6px}.muted{color:var(--muted)}.hero,.card,.mini{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 10px 24px rgba(30,45,55,.08)}.hero img,.art{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}.pad{padding:16px}.eyebrow{font-size:12px;letter-spacing:.15em;color:var(--gold);font-weight:800}.toolbar{position:sticky;top:0;z-index:50;background:rgba(247,241,230,.9);backdrop-filter:blur(12px);display:flex;gap:8px;overflow:auto;padding:10px 0;margin:12px 0 20px}.btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:9px 12px;font-weight:700;font-size:13px;white-space:nowrap;text-decoration:none;cursor:pointer}.btn.primary,.btn.active{background:var(--sea);color:white;border-color:var(--sea)}.hidden{display:none!important}.section{margin:28px 0}.lead{color:var(--muted);margin:0 0 14px}.grid{display:grid;grid-template-columns:1fr;gap:14px}.two{display:grid;grid-template-columns:1fr;gap:12px}.box{background:#fff7eb;border:1px solid var(--line);border-radius:16px;padding:12px}.box b{color:var(--terra)}.box ul{margin:6px 0 0;padding-left:18px}.map-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}#map{height:430px;border-radius:20px}.status{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:11px 13px;background:#fff8ec;font-size:13px}.tag{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:12px;margin:2px}.lang-en [data-zh]{display:none!important}.lang-zh [data-en]{display:none!important}@media(min-width:760px){.hero{display:grid;grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr 1fr}.grid.cards{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body class="lang-zh">
+<div class="wrap">
+<header class="hero">
+<img src="assets/hero-aegean.svg" alt="Aegean Art Nouveau travel illustration">
+<div class="pad">
+<div class="eyebrow">AEGEAN MYTH ROADBOOK</div>
+<h1><span data-zh>达拉曼 → 伊兹密尔<br>古希腊文明、神话与《奥德赛》</span><span data-en>Dalaman → İzmir<br>Greek Civilization, Myth & the Odyssey</span></h1>
+<p class="muted"><span data-zh>真实地图 · 中英文切换 · 沿途人文风景 · 神话故事 · 电影典故</span><span data-en>Real map · bilingual · landscapes · myths · film references</span></p>
+<button class="btn primary" id="langBtn">English</button>
+</div>
+</header>
+
+<nav class="toolbar">
+<a class="btn" href="#mapSection"><span data-zh>地图</span><span data-en>Map</span></a>
+<a class="btn" href="#route"><span data-zh>沿途路书</span><span data-en>Roadbook</span></a>
+<a class="btn" href="#islands"><span data-zh>路过岛屿</span><span data-en>Passing islands</span></a>
+<a class="btn" href="#odyssey"><span data-zh>奥德赛</span><span data-en>Odyssey</span></a>
+</nav>
+
+<section class="section" id="mapSection">
+<h2><span data-zh>真实地图</span><span data-en>Real map</span></h2>
+<p class="lead"><span data-zh>主线：达拉曼机场 → 棉花堡 / 希拉波利斯 → 以弗所 → 伊兹密尔机场。金色点是值得考虑的文化支线。</span><span data-en>Main route: Dalaman Airport → Pamukkale / Hierapolis → Ephesus → İzmir Airport. Gold points are optional cultural detours.</span></p>
+<div class="map-actions">
+<button class="btn active" data-filter="all"><span data-zh>全部</span><span data-en>All</span></button>
+<button class="btn" data-filter="main"><span data-zh>主线</span><span data-en>Main</span></button>
+<button class="btn" data-filter="detour"><span data-zh>文化支线</span><span data-en>Detours</span></button>
+<button class="btn hidden" id="locateBtn"><span data-zh>附近站点</span><span data-en>Nearby stops</span></button>
+</div>
+<div class="card"><div id="map"></div></div>
+<div class="status" id="status"><span data-zh>“附近站点”只有在 HTTPS 且浏览器支持定位时才会出现；失败或拒绝权限后会自动隐藏。</span><span data-en>“Nearby stops” appears only over HTTPS when geolocation is supported; it hides again if permission is denied or location fails.</span></div>
+</section>
+
+<section class="section" id="route">
+<h2><span data-zh>沿途路书：把公路变成一条文明叙事</span><span data-en>Roadbook: turning the road into a civilizational narrative</span></h2>
+<div class="grid" id="routeCards"></div>
+</section>
+
+<section class="section" id="islands">
+<h2><span data-zh>你不会登岛，但这些岛屿仍在背景里</span><span data-en>You will not land, but these islands remain in the background</span></h2>
+<div class="grid cards" id="islandCards"></div>
+</section>
+
+<section class="section" id="odyssey">
+<h2><span data-zh>《奥德赛》观看辅助</span><span data-en>Odyssey viewing guide</span></h2>
+<p class="lead"><span data-zh>这些典故不是说故事就发生在你经过的遗址，而是帮助你把电影里的母题放回爱琴海文明语境。</span><span data-en>These references do not mean the episodes happened at these ruins; they place the film's motifs back into their Aegean cultural setting.</span></p>
+<div class="grid cards" id="odysseyCards"></div>
+</section>
+</div>
+
+<script>
+const STOPS=[
+{id:"dalaman",zh:"达拉曼机场",en:"Dalaman Airport",lat:36.7131,lon:28.7925,k:"main"},
+{id:"kaunos",zh:"考诺斯 / 达利安",en:"Kaunos / Dalyan",lat:36.829,lon:28.642,k:"detour"},
+{id:"letoon",zh:"莱托恩 / 克桑托斯",en:"Letoon / Xanthos",lat:36.265,lon:29.316,k:"detour"},
+{id:"pamukkale",zh:"棉花堡—希拉波利斯",en:"Pamukkale–Hierapolis",lat:37.9245,lon:29.1215,k:"main"},
+{id:"aphrodisias",zh:"阿佛洛狄西亚",en:"Aphrodisias",lat:37.709,lon:28.724,k:"detour"},
+{id:"miletus",zh:"米利都 / 狄迪玛",en:"Miletus / Didyma",lat:37.53,lon:27.277,k:"detour"},
+{id:"ephesus",zh:"以弗所",en:"Ephesus",lat:37.939,lon:27.341,k:"main"},
+{id:"izmir",zh:"伊兹密尔机场",en:"İzmir Airport",lat:38.2924,lon:27.1569,k:"main"}];
+
+const ROUTE=[
+{img:"assets/lycia-letoon.svg",zh:"达拉曼与利西亚入口",en:"Dalaman & the Lycian gateway",
+landZh:["河口湿地、松林、山口与蓝绿色海湾构成旅程序章。","这里是卡里亚与利西亚文化圈的边缘，不是单纯的“希腊景观”，而是长期混合地带。"],
+landEn:["Estuary, pine slope, mountain pass and turquoise water form the visual prologue.","This is a frontier between Carian and Lycian worlds, a long-lived cultural mixture rather than a purely Greek landscape."],
+mythZh:["勒托带着阿波罗与阿尔忒弥斯来到利西亚，在泉边遭拒；传说阻拦者因此变成青蛙。","考诺斯与比布利斯的悲剧传说，让这片边地拥有离散、追逐与哀悼的神话气质。"],
+mythEn:["Leto comes to Lycia with Apollo and Artemis and is refused access to a spring; legend turns the offenders into frogs.","The tale of Caunus and Byblis gives the borderland a tragic language of separation, pursuit and mourning."],
+odyZh:"《奥德赛》对应词：Departure「启程」。从熟悉秩序离开，真正的试炼尚未显形。",
+odyEn:"Odyssey lens: Departure. The known order is left behind before the real trials reveal themselves."},
+{img:"assets/pamukkale-underworld.svg",zh:"棉花堡—希拉波利斯",en:"Pamukkale–Hierapolis",
+landZh:["白色矿物台地、浅蓝温泉与高原视野共同制造一种既洁净又超现实的地貌。","别只看棉花堡，也看剧场、墓地与城址的尺度。"],
+landEn:["White travertines, pale thermal pools and plateau views create an almost unreal terrain.","Do not look only at the terraces; read the theater, necropolis and urban scale together."],
+mythZh:["Ploutonion 的地裂会喷出致命气体，古人把这里与冥界入口联系起来。","最适合联想到哈得斯与珀耳塞福涅：下行、消失、归返与再生。"],
+mythEn:["A fissure at the Ploutonion emitted lethal gases and was associated with an entrance to the underworld.","The natural mythic pairing is Hades and Persephone: descent, disappearance, return and renewal."],
+odyZh:"《奥德赛》对应词：Katabasis「冥界之旅」。奥德修斯并非来这里，但这里让古人的冥界想象变得可见。",
+odyEn:"Odyssey lens: Katabasis, descent among the dead. Odysseus does not come here, but the landscape makes ancient underworld thinking visible."},
+{img:"assets/ionia-apollo.svg",zh:"阿佛洛狄西亚—米利都—狄迪玛",en:"Aphrodisias–Miletus–Didyma",
+landZh:["河谷、橄榄园、台地与平原，比海岸更沉静，也更有文明沉积感。","如果时间允许，这是一条理解爱奥尼亚世界非常值得的深潜支线。"],
+landEn:["River valleys, olive groves and terraces feel calmer and more deeply layered than the coast.","If time allows, this is a rewarding deep-dive into the Ionian world."],
+mythZh:["阿佛洛狄忒在这里不仅代表爱情，也代表城市魅力与地方身份。","狄迪玛的阿波罗神谕则把光、秩序、音乐与预言联系在一起。"],
+mythEn:["Aphrodite here signifies not only love but civic charisma and local identity.","Apollo at Didyma binds light, order, music and prophecy into one sacred system."],
+odyZh:"《奥德赛》对应词：Prophecy & Temptation「预言与诱惑」。喀耳刻、卡吕普索、神谕与偏航可以在这里一起理解。",
+odyEn:"Odyssey lens: Prophecy & Temptation. Circe, Calypso, oracles and delay belong to the same interpretive field."},
+{img:"assets/ephesus-artemis.svg",zh:"以弗所",en:"Ephesus",
+landZh:["列柱街、剧场、公共建筑与古港平原，让“文明被做成城市”这件事突然变得具体。","这里特别适合从神话重新回到制度、商业与公共生活。"],
+landEn:["Colonnaded streets, theater, public architecture and the former harbor plain make civilization tangible as city.","This is where myth returns to institutions, commerce and public life."],
+mythZh:["鱼与野猪的建城神谕：传说安德罗克洛斯依据神谕，通过一次烹鱼意外与野猪出现找到了建城地点。","以弗所的阿尔忒弥斯也说明：同一位神会在不同城市长成完全不同的地方形态。"],
+mythEn:["The fish-and-boar foundation oracle tells how Androclus recognized the city's site through an accidental cooking fire and a boar.","The Ephesian Artemis shows how the same deity could take radically different local forms."],
+odyZh:"《奥德赛》对应词：Cyclops / Sirens / Circe。它们不发生在以弗所，但能与这里的“城市秩序”形成强烈反差。",
+odyEn:"Odyssey lens: Cyclops / Sirens / Circe. They do not belong specifically to Ephesus, but contrast sharply with its urban order."},
+{img:"assets/hero-aegean.svg",zh:"伊兹密尔：荷马与归家",en:"İzmir: Homer and homecoming",
+landZh:["海湾、丘陵与港口让旅程从古典遗址回到一个仍然属于海洋的现代城市。","古代士麦那与荷马传统的关联，让这里非常适合收束全程。"],
+landEn:["Gulf, hills and harbor return the journey from ruins to a modern city that is still maritime at heart.","Ancient Smyrna's Homeric associations make this a natural closing point."],
+mythZh:["这里不属于某一位单独神祇，而更像把阿尔忒弥斯、阿佛洛狄忒、阿波罗、勒托与哈得斯重新摆回同一张海图。"],
+mythEn:["No single deity dominates here; instead Artemis, Aphrodite, Apollo, Leto and Hades can be placed back onto one mental sea chart."],
+odyZh:"《奥德赛》最深的词是 Nostos「归家」：经历诱惑、延误、灾难与预言以后，故事最终需要一个能被安放下来的地方。",
+odyEn:"The Odyssey's deepest word is Nostos, homecoming: after temptation, delay, disaster and prophecy, the story still seeks a place of return."}];
+
+const ISLANDS=[
+["罗得岛 Rhodes","Rhodes","多利安传统、赫利俄斯与海上城邦形象，是达拉曼海域最强的文明背景之一。","Dorian traditions, Helios and the image of the maritime polis make Rhodes a strong backdrop off the Dalaman coast."],
+["科斯岛 Kos","Kos","阿斯克勒庇俄斯与医学传统，让它与棉花堡的温泉疗愈主题形成海上呼应。","Asclepius and medical traditions make Kos an offshore counterpart to Pamukkale's healing theme."],
+["萨摩斯岛 Samos","Samos","赫拉、毕达哥拉斯与海权记忆，让它成为爱奥尼亚精神的重要背景。","Hera, Pythagoras and maritime power make Samos an important background to Ionian identity."],
+["希俄斯岛 Chios","Chios","接近伊兹密尔时，希俄斯最重要的是荷马传统；它与士麦那共同形成史诗作者想象的地理回声。","Near İzmir, Chios matters through Homeric tradition, echoing Smyrna in ancient ideas about the poet's origins."]];
+
+const ODY=[
+["Departure / 启程","离开熟悉秩序，试炼开始。适合放在达拉曼。","Leaving the known order as the ordeal begins. Best paired with Dalaman."],
+["Katabasis / 下行","进入亡灵世界寻求答案。希拉波利斯的冥界圣所最能帮助理解。","A descent among the dead to seek knowledge; Hierapolis makes the motif tangible."],
+["Circe / 喀耳刻","转化、停驻、诱惑与知识纠缠在一起。","Transformation, delay, temptation and knowledge become entangled."],
+["Sirens / 海妖","危险不是单纯暴力，而是你太想继续听下去。","The danger is not simple violence, but the irresistible desire to keep listening."],
+["Cyclops / 独眼巨人","荒野力量与城邦秩序的对照。","Untamed force set against civic order."],
+["Xenia / 宾主之礼","陌生人如何被接待，是《奥德赛》判断文明的重要尺度。","How strangers are received becomes a major Odyssey test of civilization."],
+["Nostos / 归家","最大的主题不是怪物，而是经历一切之后仍想回去。","The deepest theme is not monsters, but the desire to return after everything."]];
+
+let lang="zh";
+function render(){
+ document.body.className=lang==="zh"?"lang-zh":"lang-en";
+ document.documentElement.lang=lang==="zh"?"zh-CN":"en";
+ document.getElementById("langBtn").textContent=lang==="zh"?"English":"中文";
+ document.getElementById("routeCards").innerHTML=ROUTE.map((r,i)=>`<article class="card"><img class="art" src="${r.img}" alt=""><div class="pad"><h3>${lang==="zh"?r.zh:r.en}</h3><div class="two"><div class="box"><b>${lang==="zh"?"沿途人文风景":"Landscape & culture"}</b><ul>${(lang==="zh"?r.landZh:r.landEn).map(x=>`<li>${x}</li>`).join("")}</ul></div><div class="box"><b>${lang==="zh"?"神话故事":"Myth"}</b><ul>${(lang==="zh"?r.mythZh:r.mythEn).map(x=>`<li>${x}</li>`).join("")}</ul></div></div><p style="margin-top:12px"><span class="tag">Odyssey</span> ${lang==="zh"?r.odyZh:r.odyEn}</p></div></article>`).join("");
+ document.getElementById("islandCards").innerHTML=ISLANDS.map(x=>`<div class="mini pad"><h3>${lang==="zh"?x[0]:x[1]}</h3><p>${lang==="zh"?x[2]:x[3]}</p></div>`).join("");
+ document.getElementById("odysseyCards").innerHTML=ODY.map(x=>`<div class="mini pad"><h3>${x[0]}</h3><p>${lang==="zh"?x[1]:x[2]}</p></div>`).join("");
+ if(window.redrawMap)window.redrawMap();
+}
+document.getElementById("langBtn").onclick=()=>{lang=lang==="zh"?"en":"zh";render()};render();
+function hav(a,b,c,d){const R=6371,q=x=>x*Math.PI/180,da=q(c-a),db=q(d-b),z=Math.sin(da/2)**2+Math.cos(q(a))*Math.cos(q(c))*Math.sin(db/2)**2;return 2*R*Math.asin(Math.sqrt(z))}
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(()=>{if(!window.L)return;const map=L.map("map",{scrollWheelZoom:false}).setView([37.55,28.15],7),layers={m:L.layerGroup().addTo(map),d:L.layerGroup().addTo(map),l:L.layerGroup().addTo(map),u:L.layerGroup().addTo(map)};L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);let filter="all",marks=[];
+const icon=(c,s)=>L.divIcon({className:"",html:`<div style="width:${s}px;height:${s}px;border-radius:50%;background:${c};border:3px solid #fff;box-shadow:0 1px 7px #0005"></div>`,iconSize:[s,s],iconAnchor:[s/2,s/2]});
+function draw(){layers.m.clearLayers();layers.d.clearLayers();layers.l.clearLayers();marks=[];const main=STOPS.filter(x=>x.k==="main");if(filter!=="detour")L.polyline(main.map(x=>[x.lat,x.lon]),{color:"#a45d42",weight:4}).addTo(layers.l);STOPS.forEach(s=>{if(filter!=="all"&&s.k!==filter)return;let m=L.marker([s.lat,s.lon],{icon:icon(s.k==="main"?"#a45d42":"#c49b3c",s.k==="main"?16:14)}).addTo(s.k==="main"?layers.m:layers.d);m.bindPopup(`<b>${lang==="zh"?s.zh:s.en}</b><br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}">${lang==="zh"?"Google 地图":"Google Maps"}</a>`);marks.push([s.id,m])})}
+window.redrawMap=draw;draw();map.fitBounds(L.latLngBounds(STOPS.map(s=>[s.lat,s.lon])),{padding:[20,20]});
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.filter;draw()});
+const locate=document.getElementById("locateBtn"),status=document.getElementById("status");const ok=window.isSecureContext&&("geolocation"in navigator);if(ok)locate.classList.remove("hidden");
+locate.onclick=()=>{if(!ok)return;navigator.geolocation.getCurrentPosition(p=>{layers.u.clearLayers();const a=p.coords.latitude,b=p.coords.longitude;L.marker([a,b],{icon:icon("#2f81c1",16)}).addTo(layers.u).bindPopup(lang==="zh"?"你的位置":"Your location").openPopup();let n=STOPS.map(s=>[s,hav(a,b,s.lat,s.lon)]).sort((x,y)=>x[1]-y[1])[0];status.innerHTML=lang==="zh"?`你现在最近的是 <b>${n[0].zh}</b>，直线距离约 <b>${n[1].toFixed(1)} km</b>。`:`Your nearest stop is <b>${n[0].en}</b>, about <b>${n[1].toFixed(1)} km</b> away in straight-line distance.`;map.setView([a,b],8)},()=>{locate.classList.add("hidden");status.textContent=lang==="zh"?"定位不可用，已隐藏附近站点功能。":"Location unavailable; Nearby stops has been hidden."},{enableHighAccuracy:true,timeout:10000})};
+})();
+</script>
+</body>
+</html>
