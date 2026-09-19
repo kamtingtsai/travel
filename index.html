@@ -86,28 +86,20 @@ p{margin:0 0 10px;max-width:var(--readable)}
 .btn.primary,.btn.active{background:var(--teal);color:#f8f1e4;border-color:var(--teal)}
 .filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0 10px}
 
-/* Hand-drawn map */
-.ink-map{width:100%;height:auto;display:block;border-radius:10px;background:
-  radial-gradient(circle at 30% 20%,rgba(255,255,255,.35),transparent 50%),
-  linear-gradient(180deg,#f6ecd8,#efe0c4)}
-.ink-map .sea{fill:#c9dce3;opacity:.85}
-.ink-map .land{fill:#efe2cc;stroke:#8a6a3a;stroke-width:1.6;stroke-linejoin:round;filter:url(#paperNoise)}
-.ink-map .coast{fill:none;stroke:#5c4730;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1.2 0.6}
-.ink-map .route-main{fill:none;stroke:var(--terra);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0}
-.ink-map .route-branch{fill:none;stroke:var(--gold-deep);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:5 4;opacity:.95}
-.ink-map .route-main.sketch,.ink-map .route-branch.sketch{stroke-linejoin:round}
-.ink-map .stop{cursor:pointer}
-.ink-map .stop circle{stroke:#fff;stroke-width:2}
-.ink-map .stop.main circle{fill:var(--terra)}
-.ink-map .stop.branch circle{fill:var(--gold-deep)}
-.ink-map .stop text{font-family:"Cormorant Garamond","Noto Serif SC",serif;font-size:9px;fill:var(--teal);font-weight:700}
-.ink-map .stop.is-hidden{display:none}
-.ink-map .you{fill:#2f81c1;stroke:#fff;stroke-width:2}
-.ink-map .label-sea{font-family:"Cormorant Garamond",serif;font-size:11px;fill:#4a6d7a;letter-spacing:.12em;font-style:italic}
-.map-legend{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:8px 0 0;font-size:11px;color:var(--muted);font-weight:700}
-.map-legend i{display:inline-block;width:18px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
-.map-legend .m{background:var(--terra)}.map-legend .b{background:var(--gold-deep);height:0;border-top:2px dashed var(--gold-deep)}
-
+/* Parchment scroll map */
+.scroll-map-port{
+  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+  border-radius:12px;border:1px solid rgba(154,115,64,.45);
+  background:linear-gradient(180deg,#e8d7b8,#f4e8d0);
+  box-shadow:inset 0 0 0 1px rgba(255,248,235,.5);
+  touch-action:pan-x;
+}
+.scroll-map-img{
+  display:block;height:min(52vw,260px);width:auto;max-width:none;
+  margin:0 auto;
+}
+@media(min-width:400px){.scroll-map-img{height:280px}}
+.map-hint{text-align:center;font-size:11px;color:var(--gold-deep);letter-spacing:.12em;margin:8px 0 0;font-weight:700}
 .status{margin-top:10px;padding:10px 12px;border:1px solid rgba(197,160,89,.45);border-radius:12px;background:#fff8eb;font-size:13px;color:var(--muted);text-align:center}
 .hidden{display:none!important}
 
@@ -227,7 +219,7 @@ p{margin:0 0 10px;max-width:var(--readable)}
   <section class="section" id="mapSection">
     <h2><span data-zh>现实路线</span><span data-en>Real Route</span></h2>
     <div class="ornament">✦</div>
-    <p class="lead"><span data-zh>手绘文化路线示意，非逐路导航。赤陶色为主线，金色为支线；导航请点站点打开 Google 地图。</span><span data-en>Hand-drawn cultural route — not turn-by-turn. Terracotta = main, gold = branches; tap a stop for Google Maps.</span></p>
+    <p class="lead"><span data-zh>羊皮纸画卷路线示意，非逐路导航。左右滑动展卷；下方站点可打开 Google 地图。</span><span data-en>Parchment-scroll cultural route — not turn-by-turn. Swipe to unroll; tap stops below for Google Maps.</span></p>
     <div class="frame frame-tight">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
@@ -237,38 +229,13 @@ p{margin:0 0 10px;max-width:var(--readable)}
         <button class="btn" data-filter="detour"><span data-zh>支线</span><span data-en>Branch</span></button>
         <button class="btn hidden" id="locateBtn"><span data-zh>附近站点</span><span data-en>Nearby</span></button>
       </div>
-      <svg class="ink-map" id="inkMap" viewBox="0 0 320 380" role="img" aria-label="Hand-drawn Aegean route map">
-        <defs>
-          <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2"/></filter>
-          <pattern id="grain" width="60" height="60" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="3" r=".4" fill="#8a6a3a" opacity=".12"/>
-            <circle cx="18" cy="22" r=".35" fill="#5c4730" opacity=".1"/>
-            <circle cx="40" cy="12" r=".3" fill="#8a6a3a" opacity=".1"/>
-            <circle cx="52" cy="44" r=".4" fill="#5c4730" opacity=".08"/>
-          </pattern>
-        </defs>
-        <rect x="0" y="0" width="320" height="380" fill="#d7e6eb"/>
-        <rect x="0" y="0" width="320" height="380" fill="url(#grain)"/>
-        <!-- Aegean sea label -->
-        <text class="label-sea" x="48" y="200" transform="rotate(-68 48 200)">AEGEAN SEA</text>
-        <!-- Anatolia land mass (schematic W Turkey) -->
-        <path class="land" d="M95,40 C120,28 170,34 210,48 C250,62 285,95 292,140 C298,185 290,230 275,270 C255,325 230,355 185,365 C140,372 100,350 78,310 C55,265 48,210 52,160 C56,110 70,55 95,40 Z"/>
-        <path class="coast" filter="url(#wobble)" d="M78,310 C55,265 48,210 52,160 C56,110 70,55 95,40 C120,28 170,34 210,48 C235,58 255,75 268,100"/>
-        <!-- islands as pass-by dots (decorative) -->
-        <g opacity=".55" fill="#7a93a0" stroke="#5c4730" stroke-width=".8">
-          <ellipse cx="28" cy="250" rx="10" ry="6"/><text x="16" y="268" font-size="7" fill="#4a6d7a">Rhodes</text>
-          <ellipse cx="34" cy="210" rx="8" ry="5"/><text x="22" y="198" font-size="7" fill="#4a6d7a">Kos</text>
-          <ellipse cx="38" cy="155" rx="9" ry="5"/><text x="24" y="144" font-size="7" fill="#4a6d7a">Samos</text>
-          <ellipse cx="42" cy="105" rx="8" ry="5"/><text x="28" y="94" font-size="7" fill="#4a6d7a">Chios</text>
-        </g>
-        <!-- routes + stops injected by JS -->
-        <g id="mapRoutes"></g>
-        <g id="mapStops"></g>
-        <g id="mapYou"></g>
-      </svg>
+      <div class="scroll-map-port" id="scrollMapPort">
+        <img class="scroll-map-img" id="routeMapImg" src="assets/art/route-map-parchment.webp" alt="Aegean cultural route parchment scroll map" width="1400" height="788" decoding="async" fetchpriority="low">
+      </div>
+      <p class="map-hint"><span data-zh>← 左右滑动展开画卷 →</span><span data-en>← Swipe to unroll the scroll →</span></p>
       <div class="map-legend">
-        <span><i class="m"></i><span data-zh>主线</span><span data-en>Main</span></span>
-        <span><i class="b"></i><span data-zh>支线</span><span data-en>Branch</span></span>
+        <span><i class="m"></i><span data-zh>主线（赤陶）</span><span data-en>Main (terracotta)</span></span>
+        <span><i class="b"></i><span data-zh>支线（金）</span><span data-en>Branch (gold)</span></span>
         <span data-zh>· 路过岛屿</span><span data-en>· Passing islands</span>
       </div>
       <div class="status" id="status"><span data-zh>定位只在 HTTPS 且浏览器支持时出现；不可用会自动隐藏。</span><span data-en>Location appears only on HTTPS when supported; otherwise it hides automatically.</span></div>
@@ -444,107 +411,37 @@ syncLangUI();
 </script>
 
 <script>
-function proj(lat,lon){
-  // western Turkey schematic: lon 27–30 → x 50–290; lat 36.2–38.5 → y 340–50
-  const x = ((lon-27.0)/3.0)*240 + 50;
-  const y = ((38.55-lat)/2.4)*290 + 45;
-  return [x,y];
-}
-function shortLabel(s){
-  if(lang==='zh'){
-    return s.zh.replace('机场','').replace('棉花堡—','棉花堡').split('/')[0].trim().slice(0,6);
-  }
-  return s.en.split('/')[0].replace('Airport','').trim().slice(0,10);
-}
 let filter='all';
-function drawInkMap(){
-  const routes=document.getElementById('mapRoutes');
-  const stopsG=document.getElementById('mapStops');
-  if(!routes||!stopsG)return;
-  routes.innerHTML='';stopsG.innerHTML='';
-  const main=STOPS.filter(s=>s.k==='main');
-  const pts=main.map(s=>proj(s.lat,s.lon));
-  // slightly wobbly main path
-  let d='';
-  pts.forEach((p,i)=>{
-    const jx=(i%2?1.4:-1.2), jy=(i%2?-1.1:1.3);
-    const x=p[0]+jx, y=p[1]+jy;
-    d += (i===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1)+' ';
-  });
-  if(filter!=='detour'){
-    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('class','route-main sketch');
-    path.setAttribute('d',d.trim());
-    path.setAttribute('filter','url(#wobble)');
-    routes.appendChild(path);
-  }
-  // branch connectors from nearest main stop
-  if(filter!=='main'){
-    STOPS.filter(s=>s.k==='detour').forEach(s=>{
-      const [x,y]=proj(s.lat,s.lon);
-      let best=main[0],bd=1e9;
-      main.forEach(m=>{const dx=m.lat-s.lat,dy=m.lon-s.lon;const dd=dx*dx+dy*dy;if(dd<bd){bd=dd;best=m}});
-      const [mx,my]=proj(best.lat,best.lon);
-      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-      path.setAttribute('class','route-branch sketch');
-      const cx=((mx+x)/2+8).toFixed(1), cy=((my+y)/2-6).toFixed(1);
-      path.setAttribute('d',`M${mx.toFixed(1)},${my.toFixed(1)} Q${cx},${cy} ${x.toFixed(1)},${y.toFixed(1)}`);
-      path.setAttribute('filter','url(#wobble)');
-      routes.appendChild(path);
-    });
-  }
-  STOPS.forEach((s,i)=>{
-    if(filter!=='all'&&s.k!==filter)return;
-    const [x,y]=proj(s.lat,s.lon);
-    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('class','stop '+(s.k==='main'?'main':'branch'));
-    g.style.cursor='pointer';
-    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    c.setAttribute('cx',x.toFixed(1));c.setAttribute('cy',y.toFixed(1));
-    c.setAttribute('r', s.k==='main'?7:5.5);
-    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-    t.setAttribute('x',(x+9).toFixed(1));t.setAttribute('y',(y-8).toFixed(1));
-    t.textContent=(i+1)+' '+shortLabel(s);
-    g.appendChild(c);g.appendChild(t);
-    g.onclick=()=>openStop(s);
-    stopsG.appendChild(g);
+function applyStopFilter(){
+  document.querySelectorAll('#stopList li').forEach((li,i)=>{
+    const s=STOPS[i]; if(!s) return;
+    const show = filter==='all' || s.k===filter;
+    li.classList.toggle('hidden', !show);
   });
 }
-function openStop(s){
-  const pop=document.getElementById('stopPopup');
-  const name=lang==='zh'?s.zh:s.en;
-  const link=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
-  pop.innerHTML=`<b>${name}</b><br><a target="_blank" rel="noopener" href="${link}">${lang==='zh'?'在 Google 地图中打开':'Open in Google Maps'}</a>`;
-  pop.classList.remove('hidden');
-  clearTimeout(openStop._t);openStop._t=setTimeout(()=>pop.classList.add('hidden'),5000);
-}
-window.redrawMap=drawInkMap;
-
+window.redrawMap=applyStopFilter;
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('[data-filter]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');filter=b.dataset.filter;drawInkMap();
+  b.classList.add('active'); filter=b.dataset.filter; applyStopFilter();
 });
-
 const locate=document.getElementById('locateBtn'), status=document.getElementById('status');
 const ok=window.isSecureContext&&('geolocation' in navigator);
 if(ok) locate.classList.remove('hidden');
 locate.onclick=()=>navigator.geolocation.getCurrentPosition(p=>{
   const a=p.coords.latitude,b=p.coords.longitude;
-  const you=document.getElementById('mapYou');you.innerHTML='';
-  // project if roughly in region, else just report nearest
-  const [x,y]=proj(a,b);
-  if(x>0&&x<320&&y>0&&y<380){
-    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    c.setAttribute('class','you');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',6);
-    you.appendChild(c);
-  }
   const n=STOPS.map(s=>[s,hav(a,b,s.lat,s.lon)]).sort((x,y)=>x[1]-y[1])[0];
   status.innerHTML=lang==='zh'
     ?`你现在最近的是 <b>${n[0].zh}</b>，直线距离约 <b>${n[1].toFixed(1)} km</b>。`
     :`Your nearest stop is <b>${n[0].en}</b>, about <b>${n[1].toFixed(1)} km</b> away.`;
+  // scroll stop list item into view
+  const idx=STOPS.indexOf(n[0]);
+  const el=document.querySelectorAll('#stopList li')[idx];
+  if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
 },()=>{locate.classList.add('hidden');status.textContent=lang==='zh'?'定位不可用，已隐藏附近站点功能。':'Location unavailable; Nearby has been hidden.';},{enableHighAccuracy:true,timeout:10000});
-
-drawInkMap();
+applyStopFilter();
+// start scroll near Dalaman (right/bottom of scroll often); center-ish
+const port=document.getElementById('scrollMapPort');
+if(port){ requestAnimationFrame(()=>{ port.scrollLeft = Math.max(0, (port.scrollWidth-port.clientWidth)*0.35); }); }
 </script>
 
 </body>
