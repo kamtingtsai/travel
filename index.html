@@ -4,129 +4,80 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#17354d">
-<title>达拉曼 → 伊兹密尔｜爱琴海文明与神话路书</title>
+<title>达拉曼 → 伊兹密尔｜爱琴海文明与神话画册</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{
-  --bg:#f4ede2;--paper:#fffaf2;--ink:#172936;--muted:#68757d;--line:#d8cbb8;
-  --gold:#b2873d;--sea:#1e5369;--terra:#a65f46;--olive:#526a57;--rose:#b87970;
-  --soft:#efe2cc;--shadow:0 16px 40px rgba(31,45,54,.09);--radius:24px
-}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:
-radial-gradient(circle at 8% 0%,rgba(190,154,91,.13),transparent 28%),
-radial-gradient(circle at 92% 16%,rgba(53,100,112,.11),transparent 32%),
-linear-gradient(180deg,#f7f1e7,#f2eadf);color:var(--ink);
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",Arial,sans-serif;line-height:1.74}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:
-linear-gradient(90deg,transparent 49.7%,rgba(110,80,50,.12) 50%,transparent 50.3%);
-background-size:74px 74px;z-index:-1}
-.wrap{max-width:1040px;margin:auto;padding:14px 14px 92px}
-h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif}h1{font-size:clamp(34px,8vw,60px);line-height:1.02;margin:8px 0 12px;letter-spacing:-.02em}
-h2{font-size:30px;margin:0 0 8px}h3{font-size:22px;margin:0 0 6px}
-p{margin:0 0 10px}.muted{color:var(--muted)}.section{margin:34px 0}.lead{color:var(--muted);font-size:15px;margin:0 0 15px}
-.hero{background:var(--paper);border:1px solid var(--line);border-radius:30px;overflow:hidden;box-shadow:var(--shadow);position:relative}
-.hero-img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#eadbc4}
-.hero-copy{padding:20px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:900}
-.hero-quote{border-left:3px solid var(--gold);padding-left:12px;color:#5f5b54;font-family:Georgia,"Times New Roman",serif;font-size:17px;margin:16px 0}
-.actions,.toolbar,.filters{display:flex;gap:8px;flex-wrap:wrap}.btn{appearance:none;border:1px solid var(--line);background:rgba(255,250,242,.92);color:var(--ink);
-border-radius:999px;padding:10px 14px;font-weight:800;font-size:13px;text-decoration:none;white-space:nowrap;cursor:pointer}
-.btn.primary,.btn.active{background:var(--sea);border-color:var(--sea);color:#fff}
-.toolbar{position:sticky;top:0;z-index:50;overflow:auto;flex-wrap:nowrap;margin:14px 0 22px;padding:10px 0;
-background:rgba(244,237,226,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(216,203,184,.75)}
-.card,.mini,.chapter{background:rgba(255,250,242,.96);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.pad{padding:16px}.art{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#eadbc4}
-.grid{display:grid;grid-template-columns:1fr;gap:14px}.two{display:grid;grid-template-columns:1fr;gap:12px}
-.ribbon{display:flex;gap:7px;overflow:auto;padding:2px 0 8px;scrollbar-width:none}.pill{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800;white-space:nowrap}
-.chapter-index{color:var(--gold);font:700 12px Georgia,serif;letter-spacing:.12em;text-transform:uppercase}
-.chapter-head{padding:18px 18px 0}.chapter-copy{padding:0 18px 18px}.chapter-theme{font-family:Georgia,"Times New Roman",serif;font-style:italic;color:#7a6544}
-.box{background:linear-gradient(180deg,#fff9ef,#fff5e8);border:1px solid var(--line);border-radius:17px;padding:13px}.box b{color:var(--terra)}
-.box ul{margin:6px 0 0;padding-left:18px}.box li{margin-bottom:7px}
-.quote{margin:14px 0;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(31,83,105,.10),rgba(178,135,61,.10));border:1px solid rgba(31,83,105,.18);font-family:Georgia,"Times New Roman",serif}
-details.aside{border-top:1px dashed var(--line);padding-top:12px;margin-top:13px}details.aside summary{cursor:pointer;font-weight:800;color:var(--sea)}
-#map{height:450px;border-radius:20px}.map-status{margin-top:10px;border:1px solid var(--line);border-radius:14px;padding:11px 13px;background:#fff8ec;font-size:13px}
-.hidden{display:none!important}.thread-grid,.myth-grid,.island-grid{display:grid;grid-template-columns:1fr;gap:12px}
-.thread{position:relative;padding:17px;overflow:hidden}.thread:after{content:"";position:absolute;width:120px;height:120px;border:1px solid rgba(178,135,61,.25);border-radius:50%;right:-48px;bottom:-50px}
-.thread-icon{font-size:28px;margin-bottom:8px}.thread h3{font-size:19px}.thread p{font-size:14px;color:#59666d}
-.timeline{display:flex;gap:10px;overflow:auto;scroll-snap-type:x mandatory;padding-bottom:8px}.era{min-width:245px;scroll-snap-align:start;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px}.era b{display:block;color:var(--gold);font-size:13px}
-.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--sea));width:0;z-index:99}
+:root{--bg:#f4ede2;--paper:#fffaf2;--ink:#172936;--muted:#69767e;--line:#d8cbb8;--gold:#b2873d;--sea:#1e5369;--terra:#a65f46;--soft:#efe2cc;--shadow:0 14px 36px rgba(31,45,54,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0%,#d6b87924,transparent 28%),radial-gradient(circle at 94% 16%,#3874891c,transparent 32%),linear-gradient(#f8f2e8,#f2eadf);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Noto Sans SC",Arial,sans-serif;line-height:1.72}
+.wrap{max-width:1060px;margin:auto;padding:14px 14px 88px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif}h1{font-size:clamp(34px,8vw,60px);line-height:1.03;margin:8px 0 12px}h2{font-size:29px;margin:0 0 8px}h3{font-size:21px;margin:0 0 6px}p{margin:0 0 10px}.muted,.lead{color:var(--muted)}.section{margin:34px 0}
+.hero,.card,.chapter,.mini{background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}.hero-img,.art{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}.hero-copy,.pad{padding:18px}.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:900}.quote{border-left:3px solid var(--gold);padding-left:12px;font-family:Georgia,serif;color:#615a4f;margin:15px 0}
+.actions,.toolbar,.filters{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fffaf2;color:var(--ink);border-radius:999px;padding:9px 13px;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap;cursor:pointer}.btn.primary,.btn.active{background:var(--sea);color:#fff;border-color:var(--sea)}.toolbar{position:sticky;top:0;z-index:30;flex-wrap:nowrap;overflow:auto;padding:10px 0;margin:14px 0 22px;background:#f4ede2e8;backdrop-filter:blur(12px)}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}.two{display:grid;grid-template-columns:1fr;gap:12px}.box{background:linear-gradient(#fffaf2,#fff5e7);border:1px solid var(--line);border-radius:16px;padding:13px}.box b{color:var(--terra)}.box ul{margin:6px 0 0;padding-left:18px}.box li{margin-bottom:6px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 13px}.tag{padding:5px 9px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:12px;font-weight:800}.chapter-copy{padding:17px}.chapter-no{font-size:11px;letter-spacing:.15em;color:var(--gold);font-weight:900;text-transform:uppercase}.aside{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}.aside summary{cursor:pointer;font-weight:800;color:var(--sea)}
+#map{height:430px;border-radius:20px}.status{margin-top:10px;padding:11px 13px;border:1px solid var(--line);border-radius:14px;background:#fff8eb;font-size:13px}.hidden{display:none!important}.thread{padding:16px}.thread-icon{font-size:27px}.timeline{display:flex;gap:10px;overflow:auto}.era{min-width:235px;padding:14px;background:var(--paper);border:1px solid var(--line);border-radius:17px}.era b{display:block;color:var(--gold);font-size:13px}.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--sea));z-index:99;width:0}
 .lang-en [data-zh]{display:none!important}.lang-zh [data-en]{display:none!important}
-@media(min-width:760px){.hero{display:grid;grid-template-columns:1.05fr .95fr}.two{grid-template-columns:1fr 1fr}.thread-grid,.myth-grid,.island-grid{grid-template-columns:1fr 1fr}.chapter-inner{display:grid;grid-template-columns:.9fr 1.1fr}.chapter:nth-child(even) .art{order:2}.chapter:nth-child(even) .chapter-copywrap{order:1}}
+@media(min-width:760px){.hero{display:grid;grid-template-columns:1.03fr .97fr}.two{grid-template-columns:1fr 1fr}.threads,.myths{grid-template-columns:1fr 1fr}.chapter-inner{display:grid;grid-template-columns:.9fr 1.1fr}.chapter:nth-child(even) .art{order:2}.chapter:nth-child(even) .chapter-copy{order:1}}
 </style>
 </head>
 <body class="lang-zh">
 <div class="progress" id="progress"></div>
 <div class="wrap">
-
 <header class="hero">
-  <img class="hero-img" src="assets/hero-aegean.svg" alt="Aegean Art Nouveau illustration">
-  <div class="hero-copy">
-    <div class="eyebrow">Aegean Civilizations Roadbook</div>
-    <h1><span data-zh>达拉曼 → 伊兹密尔<br>爱琴海文明与神话路书</span><span data-en>Dalaman → İzmir<br>Aegean Civilizations & Myth Roadbook</span></h1>
-    <p class="muted"><span data-zh>不把旅程做成景点清单，而是把沿途的水、石头、圣所、城市、海路与故事连起来。</span><span data-en>Not a checklist of sights, but a journey connecting water, stone, sanctuaries, cities, sea routes and stories.</span></p>
-    <div class="hero-quote"><span data-zh>这条路真正好看的地方，是你会看见“希腊”并不是一个孤立的文明，而是一层层进入安纳托利亚，又被这里重新塑形。</span><span data-en>The beauty of this route is seeing that “Greek civilization” was never isolated: it entered Anatolia, mixed with it, and was reshaped here.</span></div>
-    <div class="actions">
-      <button class="btn primary" id="langBtn">English</button>
-      <a class="btn" href="#mapSection"><span data-zh>打开地图</span><span data-en>Map</span></a>
-      <a class="btn" href="#chapters"><span data-zh>开始路书</span><span data-en>Start roadbook</span></a>
-    </div>
-  </div>
+<img class="hero-img" src="assets/hero-aegean.svg" alt="Aegean journey illustration">
+<div class="hero-copy">
+<div class="eyebrow">Aegean Civilizations Roadbook</div>
+<h1><span data-zh>达拉曼 → 伊兹密尔<br>爱琴海文明与神话画册</span><span data-en>Dalaman → İzmir<br>Aegean Civilizations & Myth Artbook</span></h1>
+<p class="muted"><span data-zh>真实地图 · 中英文 · 文明、地貌、神话、港口与海路</span><span data-en>Real map · bilingual · civilization, landscape, myth, ports and sea routes</span></p>
+<div class="quote"><span data-zh>不是去背多少神话人物，而是一路慢慢看见：文明如何沿着水、石头、山口与港湾重新长出自己的形状。</span><span data-en>Not about memorizing gods, but slowly seeing how civilization reshaped itself around water, stone, mountain passes and harbors.</span></div>
+<div class="actions"><button class="btn primary" id="langBtn">English</button><a class="btn" href="#mapSection"><span data-zh>地图</span><span data-en>Map</span></a><a class="btn" href="#chapters"><span data-zh>开始阅读</span><span data-en>Start reading</span></a></div>
+</div>
 </header>
 
 <nav class="toolbar">
-  <a class="btn" href="#mapSection"><span data-zh>地图</span><span data-en>Map</span></a>
-  <a class="btn" href="#threads"><span data-zh>文明线索</span><span data-en>Cultural threads</span></a>
-  <a class="btn" href="#chapters"><span data-zh>分段路书</span><span data-en>Chapters</span></a>
-  <a class="btn" href="#myths"><span data-zh>神话地图</span><span data-en>Myth map</span></a>
-  <a class="btn" href="#islands"><span data-zh>海上背景</span><span data-en>Sea horizon</span></a>
+<a class="btn" href="#mapSection"><span data-zh>路线地图</span><span data-en>Route</span></a>
+<a class="btn" href="#threads"><span data-zh>文明线索</span><span data-en>Threads</span></a>
+<a class="btn" href="#chapters"><span data-zh>分段画册</span><span data-en>Chapters</span></a>
+<a class="btn" href="#myths"><span data-zh>神话地图</span><span data-en>Myth map</span></a>
+<a class="btn" href="#sea"><span data-zh>海上背景</span><span data-en>Sea horizon</span></a>
 </nav>
 
 <section class="section" id="mapSection">
-  <h2><span data-zh>现实路线地图</span><span data-en>Real route map</span></h2>
-  <p class="lead"><span data-zh>主线是达拉曼机场 → 棉花堡 / 希拉波利斯 → 以弗所 → 伊兹密尔机场；金色点是有时间时值得加入的文化支线。</span><span data-en>Main line: Dalaman Airport → Pamukkale / Hierapolis → Ephesus → İzmir Airport. Gold points are worthwhile cultural detours when time allows.</span></p>
-  <div class="filters">
-    <button class="btn active" data-filter="all"><span data-zh>全部</span><span data-en>All</span></button>
-    <button class="btn" data-filter="main"><span data-zh>主线</span><span data-en>Main</span></button>
-    <button class="btn" data-filter="detour"><span data-zh>文化支线</span><span data-en>Detours</span></button>
-    <button class="btn hidden" id="locateBtn"><span data-zh>附近站点</span><span data-en>Nearby stops</span></button>
-  </div>
-  <div class="card" style="margin-top:11px"><div id="map"></div></div>
-  <div class="map-status" id="status"><span data-zh>定位只有在 HTTPS 且浏览器支持 Geolocation 时显示；如果不可用就自动隐藏，不影响路书阅读。</span><span data-en>Location appears only over HTTPS when geolocation is supported; otherwise it hides automatically and never blocks the roadbook.</span></div>
+<h2><span data-zh>现实路线地图</span><span data-en>Real route map</span></h2>
+<p class="lead"><span data-zh>主线：达拉曼机场 → 棉花堡 / 希拉波利斯 → 以弗所 → 伊兹密尔机场。金色点是文化支线。</span><span data-en>Main line: Dalaman Airport → Pamukkale / Hierapolis → Ephesus → İzmir Airport. Gold points are cultural detours.</span></p>
+<div class="filters"><button class="btn active" data-filter="all"><span data-zh>全部</span><span data-en>All</span></button><button class="btn" data-filter="main"><span data-zh>主线</span><span data-en>Main</span></button><button class="btn" data-filter="detour"><span data-zh>支线</span><span data-en>Detours</span></button><button class="btn hidden" id="locateBtn"><span data-zh>附近站点</span><span data-en>Nearby</span></button></div>
+<div class="card" style="margin-top:10px"><div id="map"></div></div>
+<div class="status" id="status"><span data-zh>定位只在 HTTPS 且浏览器支持时出现；不可用会自动隐藏。</span><span data-en>Location appears only on HTTPS when supported, otherwise it hides automatically.</span></div>
 </section>
 
 <section class="section" id="threads">
-  <h2><span data-zh>先带着这 6 条文明线索上路</span><span data-en>Carry these 6 cultural threads with you</span></h2>
-  <p class="lead"><span data-zh>这样你看到的就不只是“遗址”，而是不同文明如何围绕自然、宗教、身体、城市和海洋生活。</span><span data-en>This turns ruins into a readable system of nature, religion, the body, cities and maritime life.</span></p>
-  <div class="thread-grid" id="threadGrid"></div>
+<h2><span data-zh>带着 6 条文明线索上路</span><span data-en>Six cultural threads for the road</span></h2>
+<div class="grid threads" id="threadGrid"></div>
 </section>
 
 <section class="section">
-  <h2><span data-zh>文明时间感</span><span data-en>A sense of historical time</span></h2>
-  <div class="timeline">
-    <div class="era"><b>Lycia / Caria</b><span data-zh>先有安纳托利亚本土传统，之后才不断与希腊世界互相渗透。</span><span data-en>Anatolian traditions existed first, then increasingly interwove with the Greek world.</span></div>
-    <div class="era"><b>Archaic & Classical</b><span data-zh>爱奥尼亚城市、神谕、港口和自然哲学塑造了新的城市文化。</span><span data-en>Ionian cities, oracles, harbors and natural philosophy shaped a new urban culture.</span></div>
-    <div class="era"><b>Hellenistic</b><span data-zh>亚历山大之后，希腊语与希腊式城市文化进一步扩散，但地方性从未消失。</span><span data-en>After Alexander, Greek language and urban forms spread further without erasing local identities.</span></div>
-    <div class="era"><b>Roman</b><span data-zh>剧场、浴场、港口、道路和公共建筑把这些城市推入更大的帝国网络。</span><span data-en>Theaters, baths, ports, roads and public buildings drew these cities into a larger imperial network.</span></div>
-  </div>
+<h2><span data-zh>文明时间感</span><span data-en>A sense of historical time</span></h2>
+<div class="timeline">
+<div class="era"><b>Lycia / Caria</b><span data-zh>本土安纳托利亚传统，与爱琴海世界长期交汇。</span><span data-en>Local Anatolian traditions meeting the Aegean world.</span></div>
+<div class="era"><b>Archaic & Classical</b><span data-zh>爱奥尼亚城市、港口、神谕与自然哲学成长。</span><span data-en>Ionian cities, harbors, oracles and natural philosophy grow.</span></div>
+<div class="era"><b>Hellenistic</b><span data-zh>希腊语言和城市文化扩散，但地方性没有消失。</span><span data-en>Greek language and urban forms spread without erasing local identity.</span></div>
+<div class="era"><b>Roman</b><span data-zh>剧场、浴场、道路和港口进入更大的帝国网络。</span><span data-en>Theaters, baths, roads and ports enter a larger imperial network.</span></div>
+</div>
 </section>
 
 <section class="section" id="chapters">
-  <h2><span data-zh>分段路书</span><span data-en>Roadbook chapters</span></h2>
-  <p class="lead"><span data-zh>每段都不只告诉你“看什么”，也告诉你“为什么这件东西会在这里出现”。</span><span data-en>Each chapter explains not only what to see, but why it appears here.</span></p>
-  <div class="grid" id="chapterGrid"></div>
+<h2><span data-zh>分段画册路书</span><span data-en>Illustrated roadbook chapters</span></h2>
+<p class="lead"><span data-zh>每一章都先看土地，再看城市和神话；《奥德赛》只作为可选文学旁注。</span><span data-en>Each chapter starts from the land, then the city and myth; the Odyssey remains an optional literary aside.</span></p>
+<div class="grid" id="chapterGrid"></div>
 </section>
 
 <section class="section" id="myths">
-  <h2><span data-zh>神话地图：不只有《奥德赛》</span><span data-en>Myth map: far more than the Odyssey</span></h2>
-  <p class="lead"><span data-zh>这一路真正不断出现的是地方神祇、泉水崇拜、预言、丰饶、冥界、城市保护神与诗歌传统。</span><span data-en>The route repeatedly returns to local cults, sacred springs, prophecy, fertility, underworld imagery, civic gods and poetic traditions.</span></p>
-  <div class="myth-grid" id="mythGrid"></div>
+<h2><span data-zh>神话地图：不只属于《奥德赛》</span><span data-en>Myth map: beyond the Odyssey</span></h2>
+<div class="grid myths" id="mythGrid"></div>
 </section>
 
-<section class="section" id="islands">
-  <h2><span data-zh>你不会登岛，但海平线仍有历史</span><span data-en>You will not land, but the horizon still has history</span></h2>
-  <p class="lead"><span data-zh>这些岛屿不是行程任务，而是帮助你理解为什么小亚细亚西岸一直不是“大陆边缘”，而是爱琴海交通网络的一部分。</span><span data-en>These islands are not tasks on your itinerary; they explain why western Anatolia was never merely a continental edge, but part of an Aegean network.</span></p>
-  <div class="island-grid" id="islandGrid"></div>
+<section class="section" id="sea">
+<h2><span data-zh>海上背景：你不登岛，但海平线有历史</span><span data-en>Sea horizon: you may not land, but the horizon has history</span></h2>
+<div class="grid myths" id="islandGrid"></div>
 </section>
-
 </div>
 
 <script>
@@ -141,163 +92,65 @@ const STOPS=[
 {id:"izmir",zh:"伊兹密尔机场",en:"İzmir Airport",lat:38.2924,lon:27.1569,k:"main"}];
 
 const THREADS=[
-{icon:"≈",zh:"水不是背景",en:"Water is not background",cZh:"泉水、温泉、河口、沼泽与港湾决定了城市为什么会出现在那里，也决定了很多神话为什么围绕水展开。",cEn:"Springs, thermal water, estuaries, marshes and harbors explain both settlement patterns and why so many myths are water-centered."},
-{icon:"◫",zh:"石头会说身份",en:"Stone expresses identity",cZh:"利西亚岩墓、大理石雕塑、列柱街和神庙不是同一种建筑语言，它们分别来自不同社会结构与审美。",cEn:"Lycian rock tombs, marble sculpture, colonnaded streets and temples speak different social and aesthetic languages."},
-{icon:"☼",zh:"神祇会地方化",en:"Gods become local",cZh:"阿尔忒弥斯、阿佛洛狄忒、阿波罗到了不同城市都会改变面貌；真正值得看的不是神名，而是地方怎样重新解释神。",cEn:"Artemis, Aphrodite and Apollo change from city to city; what matters is how each place reinterprets the god."},
-{icon:"♨",zh:"身体也是文明史",en:"The body has a history",cZh:"希拉波利斯的温泉、浴场、墓地与疗愈文化说明古代旅行也和身体、寿命、疾病及休养密切相关。",cEn:"Hierapolis shows that ancient travel was also about bodies, illness, longevity, therapy and rest."},
-{icon:"⚓",zh:"城市属于海路",en:"Cities belong to sea routes",cZh:"以弗所、米利都、士麦那的繁荣都离不开海运网络。今天看似内陆的遗址，在古代可能离港口非常近。",cEn:"Ephesus, Miletus and Smyrna depended on maritime networks; sites that look inland today could once have been close to harbors."},
-{icon:"✧",zh:"诗歌不是装饰",en:"Poetry is not decoration",cZh:"荷马传统、建城故事和神谕不是旅游传说，而是古人用来解释“我们是谁、从哪里来”的方式。",cEn:"Homeric traditions, foundation myths and oracles were ways of answering who a community was and where it came from."}
+["≈","水不是背景","Water is not background","泉、温泉、河口、港湾决定了城市与圣所为什么出现在那里。","Springs, thermal water, estuaries and harbors explain why cities and sanctuaries stood where they did."],
+["◫","石头会说身份","Stone speaks identity","利西亚岩墓、大理石雕塑、列柱街分别属于不同文化语言。","Lycian rock tombs, marble sculpture and colonnaded streets speak different cultural languages."],
+["☼","神祇会地方化","Gods become local","同一位神到不同城市会获得新的身体、新的社会角色。","The same god takes on a new body and social role in each city."],
+["♨","身体也是文明史","The body has a history","疗愈、洗浴、疾病、寿命和墓地，也是古代旅行的一部分。","Healing, bathing, illness, longevity and burial were part of ancient travel."],
+["⚓","城市属于海路","Cities belong to sea routes","以弗所、米利都、士麦那都必须放回海运网络里理解。","Ephesus, Miletus and Smyrna make fullest sense inside maritime networks."],
+["✧","诗歌不是装饰","Poetry is not decoration","神谕、建城故事和荷马传统，是古人解释“我们是谁”的方式。","Oracles, foundation myths and Homeric tradition were ways of explaining who a community was."]
 ];
 
 const CHAPTERS=[
-{
-img:"assets/lycia-letoon.svg",num:"01",zh:"达拉曼与利西亚入口",en:"Dalaman & the Lycian gateway",
-themeZh:"边地 · 水 · 岩墓 · 母神",themeEn:"frontier · water · rock tombs · mother goddess",
-introZh:"这是最适合把速度放慢的一段。它不靠一座巨大的遗址取胜，而是靠地貌本身让你意识到：这里从来不是文明的边缘，而是海陆之间的交换带。",
-introEn:"This is the section to slow down. It is not defined by one monumental ruin but by a landscape that reveals a long-lived exchange zone between sea and land.",
-seeZh:["注意河口湿地、芦苇、松林坡地和山口如何连续变化。","如果经过达利安一带，岩墓不是“希腊神庙缩小版”，而是利西亚自己的墓葬语言。","看水路与山体的关系：为什么船、河、墓地和城市会靠得这么近。"],
-seeEn:["Notice how estuary, reeds, pine slopes and mountain gateways transform continuously.","Around Dalyan, the rock tombs are not miniature Greek temples but a Lycian funerary language of their own.","Read water and mountain together: why boats, river, tombs and settlement cluster so closely."],
-whyZh:["卡里亚与利西亚处于安纳托利亚和爱琴海交流带，政治归属会变化，但地方文化延续很强。","考诺斯兼具河港、剧场、墓葬与防御空间，适合观察多重文化怎样在一座城市叠加。"],
-whyEn:["Caria and Lycia sat in an Anatolian-Aegean exchange zone where political rule shifted but local traditions remained strong.","Kaunos combines river port, theater, funerary landscape and defense, making cultural layering easy to see."],
-mythZh:["莱托与泉水：母神、泉源、拒绝与惩罚的故事，把地方自然环境直接写进神话。","阿波罗与阿尔忒弥斯在这里重要，不只是因为他们是“希腊神”，而是因为利西亚把这组神祇纳入自己的圣所体系。"],
-mythEn:["Leto and the spring: motherhood, water, refusal and punishment write the local landscape directly into myth.","Apollo and Artemis matter here because Lycia incorporated them into its own sanctuary system, not simply because they were Greek gods."],
-observeZh:"旅行观察：当你看到芦苇、水道、崖壁和墓葬同时进入视野时，不要把它们拆开看；它们本来就是一个完整的生活世界。",
-observeEn:"Travel observation: when reeds, channels, cliffs and tombs enter the same view, do not separate them—they belonged to one lived landscape.",
-asideZh:"文学旁注：如果想到《奥德赛》，这一段最贴近的不是某个怪物，而是“离开熟悉世界”的启程感。",
-asideEn:"Literary aside: if the Odyssey comes to mind, this section is less about a monster episode than the sensation of leaving the familiar world."
-},
-{
-img:"assets/pamukkale-underworld.svg",num:"02",zh:"棉花堡—希拉波利斯",en:"Pamukkale–Hierapolis",
-themeZh:"疗愈 · 温泉 · 墓地 · 冥界",themeEn:"healing · thermal water · necropolis · underworld",
-introZh:"这里最迷人的地方，是“美”和“死亡”并没有分开：温泉疗养、公共生活、巨大墓地与冥界圣所同时存在。",
-introEn:"What makes this place extraordinary is that beauty and mortality are not separated: spa culture, public life, a vast necropolis and an underworld sanctuary coexist.",
-seeZh:["先看地形：白色台地像一整面从高原垂下的矿物瀑布。","进入古城后，不要只找剧场；浴场、街道、墓地的规模更能说明这是一座怎样的城市。","留意水如何被引导、聚集和使用——天然奇观被城市工程重新组织。"],
-seeEn:["First read the landform: the white escarpment falls from the plateau like a mineral waterfall.","Inside the city, do not look only for the theater; the scale of baths, streets and necropolis tells you what kind of city this was.","Watch how water is channeled and organized: natural spectacle becomes urban infrastructure."],
-whyZh:["古代温泉城吸引的不只是游客，也包括求医、疗养、宗教活动与长期居住者。","墓地特别大，与城市作为疗养地、交通节点和区域中心有关。"],
-whyEn:["Ancient spa cities attracted not only visitors but patients, worshippers, residents and long-term convalescents.","The enormous necropolis reflects the city's role as healing center, transport node and regional hub."],
-mythZh:["Ploutonion 的地裂会释放致命气体，因此被理解为接近冥界力量的地方。","哈得斯与珀耳塞福涅的母题在这里很自然：下行、消失、归返、季节与再生。"],
-mythEn:["The Ploutonion emitted lethal gases from a fissure and was understood as a place close to underworld power.","Hades and Persephone resonate naturally here: descent, disappearance, return, seasonality and renewal."],
-observeZh:"旅行观察：白色台地给人的第一感受是纯净，但古城真正有趣的是它让“疗愈”和“死亡”站在同一个景观里。",
-observeEn:"Travel observation: the terraces first suggest purity, yet the deeper fascination is how healing and death occupy the same landscape.",
-asideZh:"文学旁注：这里可以理解 katabasis「下行」这个更广泛的古典母题；它不专属于《奥德赛》。",
-asideEn:"Literary aside: this is a place to understand the broader classical motif of katabasis, descent—not something belonging only to the Odyssey."
-},
-{
-img:"assets/ionia-apollo.svg",num:"03",zh:"阿佛洛狄西亚与爱奥尼亚深潜",en:"Aphrodisias & the Ionian deep-dive",
-themeZh:"大理石 · 美 · 神谕 · 理性",themeEn:"marble · beauty · oracle · reason",
-introZh:"如果你喜欢古希腊文明，这一段其实比单纯多看一个遗址更重要：它把雕塑、地方女神、自然哲学、港口知识网络和神谕制度放进同一张图里。",
-introEn:"For anyone drawn to Greek civilization, this is more than adding another ruin: sculpture, a local goddess, natural philosophy, harbor knowledge networks and oracle culture come into one frame.",
-seeZh:["阿佛洛狄西亚看的是雕塑质量、石材与城市审美，而不是只看一座神庙。","如果加走米利都，想象古代海岸线与今天不同，港口城市的地理需要重新在脑中复原。","狄迪玛的巨大尺度不是单纯炫技，而是在制造“接近神谕”的心理距离。"],
-seeEn:["At Aphrodisias, focus on sculptural quality, stone and civic taste rather than a single temple.","At Miletus, remember the ancient shoreline differed from today's; the harbor city must be mentally reconstructed.","At Didyma, monumentality is not mere spectacle—it produces psychological distance before the oracle."],
-whyZh:["阿佛洛狄西亚的雕塑传统说明地方城市也能形成高度专业化的艺术生产。","爱奥尼亚城市的海上联系让思想、技术、商业信息和宗教网络彼此加速。"],
-whyEn:["Aphrodisias shows how a provincial city could develop highly specialized artistic production.","Ionian maritime connections accelerated the movement of ideas, technologies, commerce and religious networks."],
-mythZh:["阿佛洛狄忒在这里是一种城市身份，不只是现代意义里的“爱情女神”。","阿波罗神谕代表的是另一种秩序：光、音乐、知识、预言，以及人向未知提出问题。"],
-mythEn:["Aphrodite here is a civic identity, not simply a modern 'goddess of romance'.","Apollo's oracle represents another order: light, music, knowledge, prophecy and the human need to question the unknown."],
-observeZh:"旅行观察：这一段最值得问自己——古人为什么一边越来越理性地解释自然，一边又愿意花巨大资源去询问神谕？",
-observeEn:"Travel observation: ask why people increasingly sought rational explanations of nature while still investing enormous resources in oracles.",
-asideZh:"文学旁注：这里更适合谈“预言与诱惑”这类古典母题，而不是强行对应某一段史诗剧情。",
-asideEn:"Literary aside: prophecy and temptation are useful classical motifs here without forcing a one-to-one epic reference."
-},
-{
-img:"assets/ephesus-artemis.svg",num:"04",zh:"以弗所",en:"Ephesus",
-themeZh:"城市 · 阿尔忒弥斯 · 商业 · 公共生活",themeEn:"city · Artemis · trade · public life",
-introZh:"到了以弗所，前面一路比较抽象的“文明”突然变得非常具体：街道、剧场、商业、神庙、图书馆、供水和公共空间全部一起出现。",
-introEn:"At Ephesus, 'civilization' becomes concrete: streets, theater, trade, temple, library, water systems and public space all appear together.",
-seeZh:["不要把塞尔苏斯图书馆当成孤立背景板；它所在的街道关系更重要。","站在大剧场附近时，试着想象古港方向，而不是只看今天的田野。","留意山坡与城市道路的高差，城市不是平面建出来的。"],
-seeEn:["Do not treat the Library of Celsus as an isolated backdrop; its relationship to the street matters more.","Near the great theater, imagine the ancient harbor rather than today's fields.","Notice the vertical relationship between hillside and streets; this city was never flat."],
-whyZh:["以弗所是爱奥尼亚传统、希腊化城市文化与罗马帝国公共生活叠加的结果。","它的繁荣与港口、贸易、区域宗教中心地位密不可分。"],
-whyEn:["Ephesus layers Ionian tradition, Hellenistic urbanism and Roman public life.","Its prosperity depended on harbor access, commerce and status as a regional religious center."],
-mythZh:["鱼与野猪的建城神谕，把城市起源解释成“神意通过偶然事件显现”。","以弗所的阿尔忒弥斯与雅典的狩猎女神形象不同，说明神祇会在地方社会中重新长出新的意义。"],
-mythEn:["The fish-and-boar foundation oracle imagines divine intention revealing itself through accident.","The Ephesian Artemis differs from the familiar Athenian huntress, showing how gods acquire new local meanings."],
-observeZh:"旅行观察：在这里最值得看的不是‘古代有多宏伟’，而是城市如何让陌生人、商人、祭司、市民和游客共享同一套公共空间。",
-observeEn:"Travel observation: the key is not simply grandeur, but how a city enabled strangers, traders, priests, citizens and visitors to share public space.",
-asideZh:"文学旁注：与独眼巨人这类“没有城邦秩序”的形象对照，以弗所反而能帮助你理解古希腊人为何如此重视城市生活。",
-asideEn:"Literary aside: contrasted with figures such as the Cyclops outside civic order, Ephesus helps explain why Greek culture valued urban life so deeply."
-},
-{
-img:"assets/hero-aegean.svg",num:"05",zh:"伊兹密尔与旅程收束",en:"İzmir & the close of the journey",
-themeZh:"海湾 · 士麦那 · 荷马传统 · 现代港口",themeEn:"gulf · Smyrna · Homeric tradition · modern harbor",
-introZh:"最后一段不用再拼命追遗址。伊兹密尔更适合把视线拉远：古代海湾、士麦那、现代港口城市与荷马传统在这里形成一种时间上的叠影。",
-introEn:"The final segment does not need another frantic ruin hunt. İzmir works best as a widening of perspective: ancient gulf, Smyrna, modern port and Homeric tradition overlap in time.",
-seeZh:["看海湾与城市丘陵的关系，理解为什么这里会长期成为港口中心。","如果前面一路看的是残迹，这里可以观察古代地理逻辑如何继续活在现代城市里。","把港口、市场、海风和人口流动也当作‘历史景观’。"],
-seeEn:["Read the relationship between gulf and hills to understand the city's enduring port role.","After a journey of ruins, notice how ancient geographic logic survives inside a modern city.","Treat harbor, markets, sea air and population movement as historical landscape too."],
-whyZh:["古代士麦那长期处在爱琴海—安纳托利亚交流网络中。","荷马出生地没有可靠定论，但士麦那与希俄斯长期都存在强烈的荷马传统。"],
-whyEn:["Ancient Smyrna belonged to the long Aegean-Anatolian exchange network.","Homer's birthplace is uncertain, yet both Smyrna and Chios sustained strong Homeric traditions."],
-mythZh:["这一站不需要再添加新的神祇；更有意思的是回头看一路上不同城市如何用各自的神、起源故事与仪式解释自己。"],
-mythEn:["There is no need to add another deity here; more interesting is looking back at how each city used gods, foundation stories and ritual to explain itself."],
-observeZh:"旅行观察：抵达机场之前，最值得留下的不是‘我看了多少遗址’，而是你开始能从地貌判断一座古城为什么会在那里。",
-observeEn:"Travel observation: before reaching the airport, the most valuable gain is not how many ruins you saw, but whether landscape now helps you understand why an ancient city stood where it did.",
-asideZh:"文学旁注：如果一定要留下一个《奥德赛》词汇，那就是 nostos「归家」——不是因为这里是奥德修斯的归途，而是因为你的旅程也需要一个收束。",
-asideEn:"Literary aside: if one Odyssey word deserves to remain, it is nostos—homecoming—not because İzmir lies on Odysseus' route, but because your own journey needs closure."
-}
+{n:"01",img:"assets/lycia-letoon.svg",zh:"达拉曼与利西亚入口",en:"Dalaman & the Lycian Gateway",tags:["边地","水","泉源","岩墓"],i:"从机场离开后，先读湿地、河口、松林和山口。这里不是希腊文明的边缘，而是安纳托利亚与爱琴海互相塑形的入口。",ie:"Leaving the airport, read wetlands, estuary, pine slopes and mountain passes first. This is not the edge of Greek civilization but a threshold where Anatolia and the Aegean reshaped one another.",see:["留意海湾、芦苇和山体同时出现。","把莱托恩理解成地方泉源与希腊神祇相接的圣所。"],why:["利西亚本土传统并没有被希腊文化简单覆盖。","水与母神传统比背诵神名更重要。"],myth:["勒托与泉水：流亡、母性、缺水与神罚。","阿波罗和阿尔忒弥斯在此进入利西亚自己的圣所体系。"],obs:"先看土地，再看神话；这会改变你理解整条路线的方式。",aside:"只保留《奥德赛》的“启程感”即可，不必寻找一一对应的剧情。"},
+{n:"02",img:"assets/lycia-letoon.svg",zh:"考诺斯与达利安水路",en:"Kaunos & the Dalyan Waterway",tags:["河港","岩墓","芦苇","船路"],i:"考诺斯最适合说明“水路文明”：悬崖岩墓、河港、船路和城市遗址彼此靠得很近。",ie:"Kaunos is a perfect waterway civilization: cliff tombs, river harbor, boat routes and urban ruins sit close together.",see:["看悬崖岩墓与水面小船的视觉对照。","把芦苇、河流和墓地当成一个整体。"],why:["水路曾是城市生活的主轴。","岩墓显示地方权力表达并不等同于希腊神庙。"],myth:["考诺斯与比布利斯的故事带着追逐、哀悼和地名化。"],obs:"这段最适合慢下来；水、鸟与芦苇比说明牌更会讲故事。",aside:"不必强行套史诗，这里更像从海到内陆的一座转译站。"},
+{n:"03",img:"assets/pamukkale-underworld.svg",zh:"棉花堡—希拉波利斯",en:"Pamukkale–Hierapolis",tags:["疗愈","温泉","墓地","冥界"],i:"白色台地只是第一层。真正有意思的是温泉疗养、公共生活、巨大墓地和地下世界想象共处一城。",ie:"The white terraces are only the first layer. The deeper story is spa culture, public life, a vast necropolis and underworld imagination sharing one city.",see:["别只拍白色台地，也看浴场、剧场和墓地。","留意天然水景如何被工程化、城市化。"],why:["古代温泉城本身就是疗养、社交、宗教与生死的制度。"],myth:["Ploutonion 把地裂和毒气变成冥界边缘。","哈得斯与珀耳塞福涅：下行、消失、回返、再生。"],obs:"最难忘的不是纯净白色，而是治愈与死亡出现在同一张景观里。",aside:"冥界旅行可以作为旁注，但主角应是地貌如何长出信仰。"},
+{n:"04",img:"assets/ionia-apollo.svg",zh:"阿佛洛狄西亚",en:"Aphrodisias",tags:["大理石","女神","审美","雕塑"],i:"这座城市用石头与雕塑说话。阿佛洛狄忒在这里更像地方身份和审美秩序，而不只是爱情女神。",ie:"This city speaks through stone and sculpture. Aphrodite here is civic identity and aesthetic order, not merely a goddess of romance.",see:["看雕塑质量，而不是只看遗址轮廓。","感受大理石如何改变整座城的气质。"],why:["地方城市同样可以形成世界级专业艺术生产。"],myth:["阿佛洛狄忒在这里关乎魅力、丰饶、城市荣耀和美。"],obs:"当你开始分辨这座城为什么显得优雅，你才真正进入阿佛洛狄西亚。",aside:"这里更适合谈美与诱惑，而不是拘泥于史诗情节。"},
+{n:"05",img:"assets/ionia-apollo.svg",zh:"狄迪玛与米利都",en:"Didyma & Miletus",tags:["神谕","港口","理性","知识"],i:"这一段最适合把神谕和理性放在一起：人一边越来越理性地解释自然，一边继续向阿波罗发问。",ie:"This is where prophecy and reason belong together: people increasingly explained nature rationally while continuing to question Apollo.",see:["看狄迪玛神庙如何用巨大尺度制造心理距离。","想象米利都古代海岸线与港口。"],why:["爱奥尼亚海上网络加速了思想、商业、技术和宗教的流动。"],myth:["阿波罗代表光、音乐、秩序、知识和预言。"],obs:"关键词不是奇观，而是“提问”：古人如何问神，也如何问自然。",aside:"保留“预言与偏航”的电影感即可。"},
+{n:"06",img:"assets/ephesus-artemis.svg",zh:"以弗所",en:"Ephesus",tags:["城市","阿尔忒弥斯","商业","公共秩序"],i:"到了以弗所，文明突然被做成了城市：街道、剧场、神庙、港口、商业和公共建筑同时出现。",ie:"At Ephesus, civilization becomes city: streets, theater, temple, harbor, commerce and public architecture appear together.",see:["不要只看图书馆立面，也看街道关系。","站在剧场附近时想象古港方向。"],why:["以弗所把宗教、贸易、公共生活与区域网络织在一起。"],myth:["鱼与野猪的建城神谕。","以弗所的阿尔忒弥斯说明神祇会深度地方化。"],obs:"想象陌生人、商人、祭司和游客共享同一条街，以弗所就不再只是遗址。",aside:"海妖、喀耳刻、独眼巨人可以留在背景，不必抢走城市本身的戏。"},
+{n:"07",img:"assets/hero-aegean.svg",zh:"海上背景：群岛与航线",en:"Maritime Background: Islands & Sea Routes",tags:["罗得","科斯","萨摩斯","希俄斯"],i:"你不会登岛，但一路向北始终在一个海上交通网络旁边前进。",ie:"You may not land on the islands, but the entire northbound journey runs beside a maritime network.",see:["把岛屿当作文明背景，而不是任务清单。","看海时，也是在看一张古代交通图。"],why:["小亚细亚西岸从来不是大陆边缘，而是爱琴海的一部分。"],myth:["罗得的太阳、科斯的疗愈、萨摩斯的赫拉、希俄斯的荷马传统，都是背景回声。"],obs:"问题不是‘有没有上岛’，而是有没有意识到自己一直与更大的海洋世界并行。",aside:"电影感更像地图展开的时刻，而不是某一段具体剧情。"},
+{n:"08",img:"assets/hero-aegean.svg",zh:"伊兹密尔：士麦那与归途",en:"İzmir: Smyrna & Homecoming",tags:["海湾","荷马传统","港口","收束"],i:"最后不用再追更多遗址。伊兹密尔更适合回头看一路的水、石头、圣所、城市和海风。",ie:"The final stop needs no frantic ruin hunt. İzmir is for looking back at the waters, stones, sanctuaries, cities and sea wind of the whole route.",see:["看海湾与丘陵的关系。","把现代港口生活也当成历史景观。"],why:["古代士麦那属于爱琴海—安纳托利亚交流网络。","荷马传统为这里留下持续的诗歌余音。"],myth:["不再添加新神祇，而把一路遇到的神重新放回同一张海图。"],obs:"最好的收获，是你开始能从山、河、海和港口判断古城为什么会在那里。",aside:"如果留下一个《奥德赛》词汇，就是 nostos「归家」——此时它更属于你自己的旅程。"}
 ];
 
 const MYTHS=[
-["Leto / 勒托","水源、母性、流亡与地方圣所。她最适合放在利西亚湿地和泉水景观中理解。","Water, motherhood, wandering and local sanctuary—best understood in the Lycian landscape of springs and wetlands."],
-["Hades & Persephone / 哈得斯与珀耳塞福涅","不是把棉花堡说成神话发生地，而是用冥界母题理解古人为什么会把危险地裂视作地下世界边缘。","Not claiming Pamukkale as the myth's location, but using underworld imagery to understand why lethal fissures suggested a threshold below."],
-["Aphrodite / 阿佛洛狄忒","在阿佛洛狄西亚，她是城市身份、雕塑、审美和地方荣耀的一部分。","At Aphrodisias she belongs to civic identity, sculpture, aesthetics and local pride."],
-["Apollo / 阿波罗","狄迪玛把阿波罗与预言、音乐、秩序和知识联系起来，也展示城市如何制度化“向神提问”。","Didyma links Apollo to prophecy, music, order and knowledge—and institutionalizes the act of asking the divine."],
-["Artemis / 阿尔忒弥斯","以弗所的阿尔忒弥斯是地方化的神祇，提醒你不要把一位神理解成永远不变的单一形象。","Ephesian Artemis is a localized deity, a reminder never to treat a god as one fixed image everywhere."],
-["Homeric tradition / 荷马传统","不是只谈《奥德赛》剧情，而是把史诗看成爱琴海世界理解旅行、陌生人、战争、记忆与归家的共同语言。","More than plot: epic became a shared Aegean language for travel, strangers, war, memory and return."]
+["Leto / 勒托","泉水、流亡、母性与利西亚地方圣所。","Springs, exile, motherhood and Lycian sanctuaries."],
+["Hades & Persephone / 哈得斯与珀耳塞福涅","帮助理解棉花堡的冥界想象如何从地貌中生长。","A lens for how Pamukkale’s underworld imagination grew from landscape."],
+["Aphrodite / 阿佛洛狄忒","在阿佛洛狄西亚关乎城市魅力、雕塑与地方荣耀。","At Aphrodisias she concerns civic charisma, sculpture and local prestige."],
+["Apollo / 阿波罗","在狄迪玛代表光、秩序、音乐、知识与预言。","At Didyma he stands for light, order, music, knowledge and prophecy."],
+["Artemis / 阿尔忒弥斯","以弗所告诉你同一位神如何变成一位地方神。","Ephesus shows how the same deity can become profoundly local."],
+["Homeric tradition / 荷马传统","把史诗看成爱琴海世界关于旅行、陌生人、战争、记忆与归家的共同语言。","Epic as a shared Aegean language of travel, strangers, war, memory and return."]
 ];
 
 const ISLANDS=[
-["Rhodes / 罗得岛","多利安传统、赫利俄斯与海上城邦形象。它提醒你达拉曼外海不是空白，而是古代航线密集区。","Dorian tradition, Helios and the maritime polis remind you that the sea off Dalaman was a network, not empty space."],
-["Kos / 科斯","医学、疗愈与阿斯克勒庇俄斯传统，让它与棉花堡的温泉疗养形成很自然的文化对照。","Medicine, healing and Asclepius make Kos a natural cultural counterpart to Pamukkale."],
-["Samos / 萨摩斯","赫拉、毕达哥拉斯与海权，使它成为理解爱奥尼亚世界时无法完全忽略的海上背景。","Hera, Pythagoras and maritime power make Samos an unavoidable background to Ionia."],
-["Chios / 希俄斯","接近伊兹密尔时，它最重要的是与荷马传统的长期关联，而不是必须登陆参观。","Near İzmir, its enduring Homeric association matters more than any need to land there."]
+["Rhodes / 罗得岛","多利安传统、赫利俄斯与海上城邦，是达拉曼外海的重要背景。","Dorian traditions, Helios and maritime polis culture form a strong background off Dalaman."],
+["Kos / 科斯","医学与阿斯克勒庇俄斯传统，与棉花堡的疗愈主题相呼应。","Medicine and Asclepius echo Pamukkale’s healing theme."],
+["Samos / 萨摩斯","赫拉、毕达哥拉斯与海权，是理解爱奥尼亚精神的重要背景。","Hera, Pythagoras and maritime power form an important Ionian background."],
+["Chios / 希俄斯","接近伊兹密尔时，它最重要的是荷马传统的回声。","Near İzmir, its strongest resonance is Homeric tradition."]
 ];
 
 let lang="zh";
 function render(){
-  document.body.className=lang==="zh"?"lang-zh":"lang-en";
-  document.documentElement.lang=lang==="zh"?"zh-CN":"en";
-  document.getElementById("langBtn").textContent=lang==="zh"?"English":"中文";
-  document.getElementById("threadGrid").innerHTML=THREADS.map(x=>`<div class="mini thread"><div class="thread-icon">${x.icon}</div><h3>${lang==="zh"?x.zh:x.en}</h3><p>${lang==="zh"?x.cZh:x.cEn}</p></div>`).join("");
-  document.getElementById("chapterGrid").innerHTML=CHAPTERS.map(c=>`
-    <article class="chapter">
-      <div class="chapter-inner">
-        <img class="art" src="${c.img}" alt="">
-        <div class="chapter-copywrap">
-          <div class="chapter-head">
-            <div class="chapter-index">Chapter ${c.num}</div>
-            <h3>${lang==="zh"?c.zh:c.en}</h3>
-            <div class="chapter-theme">${lang==="zh"?c.themeZh:c.themeEn}</div>
-            <div class="ribbon" style="margin-top:9px">
-              ${(lang==="zh"?c.themeZh:c.themeEn).split(" · ").map(x=>`<span class="pill">${x}</span>`).join("")}
-            </div>
-          </div>
-          <div class="chapter-copy">
-            <p>${lang==="zh"?c.introZh:c.introEn}</p>
-            <div class="two">
-              <div class="box"><b>${lang==="zh"?"沿途看什么":"What to notice"}</b><ul>${(lang==="zh"?c.seeZh:c.seeEn).map(x=>`<li>${x}</li>`).join("")}</ul></div>
-              <div class="box"><b>${lang==="zh"?"为什么重要":"Why it matters"}</b><ul>${(lang==="zh"?c.whyZh:c.whyEn).map(x=>`<li>${x}</li>`).join("")}</ul></div>
-            </div>
-            <div class="box" style="margin-top:12px"><b>${lang==="zh"?"地方神话与信仰":"Local myth & belief"}</b><ul>${(lang==="zh"?c.mythZh:c.mythEn).map(x=>`<li>${x}</li>`).join("")}</ul></div>
-            <div class="quote">${lang==="zh"?c.observeZh:c.observeEn}</div>
-            <details class="aside"><summary>${lang==="zh"?"文学 / 电影旁注（可选）":"Literary / film aside (optional)"}</summary><p style="margin-top:8px">${lang==="zh"?c.asideZh:c.asideEn}</p></details>
-          </div>
-        </div>
-      </div>
-    </article>`).join("");
-  document.getElementById("mythGrid").innerHTML=MYTHS.map(x=>`<div class="mini pad"><h3>${x[0]}</h3><p>${lang==="zh"?x[1]:x[2]}</p></div>`).join("");
-  document.getElementById("islandGrid").innerHTML=ISLANDS.map(x=>`<div class="mini pad"><h3>${x[0]}</h3><p>${lang==="zh"?x[1]:x[2]}</p></div>`).join("");
-  if(window.redrawMap)window.redrawMap();
+document.body.className=lang==="zh"?"lang-zh":"lang-en";
+document.documentElement.lang=lang==="zh"?"zh-CN":"en";
+document.getElementById("langBtn").textContent=lang==="zh"?"English":"中文";
+document.getElementById("threadGrid").innerHTML=THREADS.map(x=>'<div class="mini thread"><div class="thread-icon">'+x[0]+'</div><h3>'+(lang==="zh"?x[1]:x[2])+'</h3><p>'+(lang==="zh"?x[3]:x[4])+'</p></div>').join("");
+document.getElementById("mythGrid").innerHTML=MYTHS.map(x=>'<div class="mini pad"><h3>'+x[0]+'</h3><p>'+(lang==="zh"?x[1]:x[2])+'</p></div>').join("");
+document.getElementById("islandGrid").innerHTML=ISLANDS.map(x=>'<div class="mini pad"><h3>'+x[0]+'</h3><p>'+(lang==="zh"?x[1]:x[2])+'</p></div>').join("");
+document.getElementById("chapterGrid").innerHTML=CHAPTERS.map(c=>'<article class="chapter"><div class="chapter-inner"><img class="art" loading="lazy" src="'+c.img+'" alt=""><div class="chapter-copy"><div class="chapter-no">Chapter '+c.n+'</div><h3>'+(lang==="zh"?c.zh:c.en)+'</h3><div class="tags">'+c.tags.map(t=>'<span class="tag">'+t+'</span>').join("")+'</div><p>'+(lang==="zh"?c.i:c.ie)+'</p><div class="two"><div class="box"><b>'+(lang==="zh"?"沿途看什么":"What to notice")+'</b><ul>'+c.see.map(x=>'<li>'+x+'</li>').join("")+'</ul></div><div class="box"><b>'+(lang==="zh"?"为什么重要":"Why it matters")+'</b><ul>'+c.why.map(x=>'<li>'+x+'</li>').join("")+'</ul></div></div><div class="box" style="margin-top:12px"><b>'+(lang==="zh"?"地方神话与信仰":"Local myth & belief")+'</b><ul>'+c.myth.map(x=>'<li>'+x+'</li>').join("")+'</ul></div><div class="quote">'+c.obs+'</div><details class="aside"><summary>'+(lang==="zh"?"文学 / 电影旁注（可选）":"Literary / film aside (optional)")+'</summary><p>'+c.aside+'</p></details></div></div></article>').join("");
+if(window.redrawMap)window.redrawMap();
 }
-document.getElementById("langBtn").onclick=()=>{lang=lang==="zh"?"en":"zh";render()};
-render();
-window.addEventListener("scroll",()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);document.getElementById("progress").style.width=(p*100)+"%"});
+document.getElementById("langBtn").onclick=()=>{lang=lang==="zh"?"en":"zh";render()};render();
+window.addEventListener("scroll",()=>{const h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight);document.getElementById("progress").style.width=(p*100)+"%"});
 function hav(a,b,c,d){const R=6371,q=x=>x*Math.PI/180,da=q(c-a),db=q(d-b),z=Math.sin(da/2)**2+Math.cos(q(a))*Math.cos(q(c))*Math.sin(db/2)**2;return 2*R*Math.asin(Math.sqrt(z))}
 </script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-(()=>{if(!window.L)return;const map=L.map("map",{scrollWheelZoom:false}).setView([37.55,28.15],7),layers={m:L.layerGroup().addTo(map),d:L.layerGroup().addTo(map),l:L.layerGroup().addTo(map),u:L.layerGroup().addTo(map)};L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);let filter="all",marks=[];
-const icon=(c,s)=>L.divIcon({className:"",html:`<div style="width:${s}px;height:${s}px;border-radius:50%;background:${c};border:3px solid #fff;box-shadow:0 1px 7px #0005"></div>`,iconSize:[s,s],iconAnchor:[s/2,s/2]});
-function draw(){layers.m.clearLayers();layers.d.clearLayers();layers.l.clearLayers();marks=[];const main=STOPS.filter(x=>x.k==="main");if(filter!=="detour")L.polyline(main.map(x=>[x.lat,x.lon]),{color:"#a65f46",weight:4}).addTo(layers.l);STOPS.forEach(s=>{if(filter!=="all"&&s.k!==filter)return;let m=L.marker([s.lat,s.lon],{icon:icon(s.k==="main"?"#a65f46":"#c49b3c",s.k==="main"?16:14)}).addTo(s.k==="main"?layers.m:layers.d);m.bindPopup(`<b>${lang==="zh"?s.zh:s.en}</b><br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}">${lang==="zh"?"Google 地图":"Google Maps"}</a>`);marks.push([s.id,m])})}
+(()=>{if(!window.L)return;const map=L.map("map",{scrollWheelZoom:false}).setView([37.55,28.15],7),layers={m:L.layerGroup().addTo(map),d:L.layerGroup().addTo(map),l:L.layerGroup().addTo(map),u:L.layerGroup().addTo(map)};L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);let filter="all";
+const icon=(c,s)=>L.divIcon({className:"",html:'<div style="width:'+s+'px;height:'+s+'px;border-radius:50%;background:'+c+';border:3px solid #fff;box-shadow:0 1px 7px #0005"></div>',iconSize:[s,s],iconAnchor:[s/2,s/2]});
+function draw(){layers.m.clearLayers();layers.d.clearLayers();layers.l.clearLayers();const main=STOPS.filter(x=>x.k==="main");if(filter!=="detour")L.polyline(main.map(x=>[x.lat,x.lon]),{color:"#a65f46",weight:4}).addTo(layers.l);STOPS.forEach(s=>{if(filter!=="all"&&s.k!==filter)return;const m=L.marker([s.lat,s.lon],{icon:icon(s.k==="main"?"#a65f46":"#c49b3c",s.k==="main"?16:14)}).addTo(s.k==="main"?layers.m:layers.d);m.bindPopup("<b>"+(lang==="zh"?s.zh:s.en)+'</b><br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lon+'">'+(lang==="zh"?"在 Google 地图中打开":"Open in Google Maps")+"</a>")})}
 window.redrawMap=draw;draw();map.fitBounds(L.latLngBounds(STOPS.map(s=>[s.lat,s.lon])),{padding:[20,20]});
 document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-filter]").forEach(x=>x.classList.remove("active"));b.classList.add("active");filter=b.dataset.filter;draw()});
-const locate=document.getElementById("locateBtn"),status=document.getElementById("status");const ok=window.isSecureContext&&("geolocation"in navigator);if(ok)locate.classList.remove("hidden");
-locate.onclick=()=>{if(!ok)return;navigator.geolocation.getCurrentPosition(p=>{layers.u.clearLayers();const a=p.coords.latitude,b=p.coords.longitude;L.marker([a,b],{icon:icon("#2f81c1",16)}).addTo(layers.u).bindPopup(lang==="zh"?"你的位置":"Your location").openPopup();let n=STOPS.map(s=>[s,hav(a,b,s.lat,s.lon)]).sort((x,y)=>x[1]-y[1])[0];status.innerHTML=lang==="zh"?`你现在最近的是 <b>${n[0].zh}</b>，直线距离约 <b>${n[1].toFixed(1)} km</b>。`:`Your nearest stop is <b>${n[0].en}</b>, about <b>${n[1].toFixed(1)} km</b> away in straight-line distance.`;map.setView([a,b],8)},()=>{locate.classList.add("hidden");status.textContent=lang==="zh"?"定位不可用，附近站点功能已自动隐藏。":"Location unavailable; Nearby stops has been hidden."},{enableHighAccuracy:true,timeout:10000})};
+const locate=document.getElementById("locateBtn"),status=document.getElementById("status"),ok=window.isSecureContext&&("geolocation"in navigator);if(ok)locate.classList.remove("hidden");
+locate.onclick=()=>navigator.geolocation.getCurrentPosition(p=>{layers.u.clearLayers();const a=p.coords.latitude,b=p.coords.longitude;L.marker([a,b],{icon:icon("#2f81c1",16)}).addTo(layers.u).bindPopup(lang==="zh"?"你的位置":"Your location").openPopup();const n=STOPS.map(s=>[s,hav(a,b,s.lat,s.lon)]).sort((x,y)=>x[1]-y[1])[0];status.innerHTML=lang==="zh"?"你现在最近的是 <b>"+n[0].zh+"</b>，直线距离约 <b>"+n[1].toFixed(1)+" km</b>。":"Your nearest stop is <b>"+n[0].en+"</b>, about <b>"+n[1].toFixed(1)+" km</b> away.";map.setView([a,b],8)},()=>{locate.classList.add("hidden");status.textContent=lang==="zh"?"定位不可用，已隐藏附近站点功能。":"Location unavailable; Nearby has been hidden."},{enableHighAccuracy:true,timeout:10000});
 })();
 </script>
 </body>
